@@ -18,7 +18,8 @@ public class Option {
 
     public Option() {}
 
-    public Option(double chance, ArrayList<String> requirements) {
+    public Option(String nodeId, double chance, ArrayList<String> requirements) {
+        this.NodeId = nodeId;
         this.Chance = chance;
         this.Requirements = requirements;
     }

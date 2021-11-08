@@ -49,7 +49,12 @@ public class MongoDBHelper {
 
         List<Document> optionsDocuments = options.stream().map(Option::toBson).collect(Collectors.toList());
 
-        // TODO: Update document with above options
+        MongoCollection<Document> collection = mongoDB.getCollection(nodesCollectionName);
+        collection.updateOne(
+                Filters.eq("_id", new ObjectId(id)),
+                Updates.combine(
+                        Updates.set("options", optionsDocuments)
+                ));
     }
 
     public static void UpdateNode(String id, Updates updates) {
@@ -63,41 +68,37 @@ public class MongoDBHelper {
                 ));
     }
 
+    public static void AddNewNodeProperty(String name, Object value) {
 
-    public static ArrayList<Test> GetAll() {
+        ArrayList<Node> availableNodes = GetAll();
+        MongoCollection<Document> collection = mongoDB.getCollection(nodesCollectionName);
+
+        for (Node n : availableNodes) {
+            collection.updateOne(
+                    Filters.eq("_id", new ObjectId(n.Id)),
+                    Updates.combine(
+                            Updates.set(name, value)
+                    ));
+        }
+    }
+
+
+    public static ArrayList<Node> GetAll() {
 
         MongoCollection<Document> collection = mongoDB.getCollection(nodesCollectionName);
         MongoCursor<Document> cursor = collection.find().cursor();
-        return CursorToElements(cursor);
+        return CursorToNodes(cursor);
     }
 
-    public static void AddTest() {
 
-        MongoCollection<Document> collection = mongoDB.getCollection(nodesCollectionName);
-        Test insertTest = new Test("T", 11);
-//
-//        collection.insertOne(insertTest.toBsonDocument());
-    }
-
-    public static void UpdateTest(String id) {
-
-        MongoCollection<Document> collection = mongoDB.getCollection(nodesCollectionName);
-        collection.updateOne(
-                Filters.eq("_id", new ObjectId(id)),
-                Updates.combine(
-                        Updates.set("name", "NAME UPDATED AGAIN"),
-                        Updates.set("age", 4)
-                ));
-    }
-
-    private static ArrayList<Test> CursorToElements(MongoCursor<Document> cursor) {
-        ArrayList<Test> documents = new ArrayList<>();
+    private static ArrayList<Node> CursorToNodes(MongoCursor<Document> cursor) {
+        ArrayList<Node> documents = new ArrayList<>();
 
         while (cursor.hasNext()) {
 
             String jsonContent = cursor.next().toJson(settings);
-            Test t = gson.fromJson(jsonContent, Test.class);
-            documents.add(t);
+            Node node = gson.fromJson(jsonContent, Node.class);
+            documents.add(node);
         }
         return documents;
     }
