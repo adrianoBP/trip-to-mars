@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 import org.bson.Document;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Option {
 
@@ -14,11 +15,16 @@ public class Option {
     public double Chance;
 
     @SerializedName(value = "requirements")
-    public ArrayList<String> Requirements = new ArrayList<>();
+    public List<String> Requirements = new ArrayList<>();
 
     public Option() {}
 
-    public Option(String nodeId, double chance, ArrayList<String> requirements) {
+    public Option(String nodeId, double chance) {
+        this.NodeId = nodeId;
+        this.Chance = chance;
+    }
+
+    public Option(String nodeId, double chance, List<String> requirements) {
         this.NodeId = nodeId;
         this.Chance = chance;
         this.Requirements = requirements;

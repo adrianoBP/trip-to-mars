@@ -1,3 +1,5 @@
+package Helpers;
+
 import Models.Node;
 import Models.Option;
 import Models.Test;
@@ -39,10 +41,14 @@ public class MongoDBHelper {
         mongoDB = mongoClient.getDatabase("PAPL-trip-to-mars");
     }
 
-    public static void InsertNode(Node node) {
+    public static String InsertNode(Node node) {
 
         MongoCollection<Document> collection = mongoDB.getCollection(nodesCollectionName);
-        collection.insertOne(node.toBson());
+
+        Document docToInsert = node.toBson();
+        collection.insertOne(docToInsert);
+
+        return docToInsert.getObjectId("_id").toString();
     }
 
     public static void AddNodeOptions(String id, ArrayList<Option> options) {

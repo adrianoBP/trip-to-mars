@@ -19,10 +19,10 @@ public class Node {
     public String Description = "";
 
     @SerializedName(value = "options")
-    public ArrayList<Option> Options = new ArrayList<>();
+    public List<Option> Options = new ArrayList<>();
 
-    @SerializedName(value = "save-result")
-    public boolean SaveResult = false;
+    @SerializedName(value = "item-to-save")
+    public String ItemToSave = "";
 
     @SerializedName(value = "is-beginning")
     public boolean IsBeginning = false;
@@ -33,15 +33,15 @@ public class Node {
         this.Title = title;
         this.Description = description;
     }
-    public Node(String title, String description, boolean saveResult) {
+    public Node(String title, String description, String itemToSave) {
         this.Title = title;
         this.Description = description;
-        this.SaveResult = saveResult;
+        this.ItemToSave = itemToSave;
     }
-    public Node(String title, String description, boolean saveResult, boolean isBeginning) {
+    public Node(String title, String description, String itemToSave, boolean isBeginning) {
         this.Title = title;
         this.Description = description;
-        this.SaveResult = saveResult;
+        this.ItemToSave = itemToSave;
         this.IsBeginning = isBeginning;
     }
 
@@ -50,7 +50,8 @@ public class Node {
         Document bsonDocument = new Document();
         bsonDocument.put("title", Title);
         bsonDocument.put("description", Description);
-        bsonDocument.put("save-result", SaveResult);
+        bsonDocument.put("item-to-save", ItemToSave);
+        bsonDocument.put("is-beginning", IsBeginning);
 
         List<Document> options = Options.stream().map(Option::toBson).collect(Collectors.toList());
         bsonDocument.put("options", options);

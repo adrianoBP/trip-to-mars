@@ -13,6 +13,8 @@ public class LogicHelper {
 
         // TODO: If ALL the nodes % is 0, then show all the nodes (USER MADE DECISION)
 
-        // TODO: If the node requirements are not met, then the node is not available (SYSTEM MADE DECISION)
+        // TODO: If the node requirements are not met OR only one node, then the node is not available (SYSTEM MADE DECISION)
+
+        // TODO: If there are no nodes, the end has been reached
     }
 }
