@@ -23,7 +23,6 @@ public class Main {
         MapHelper.BuildMap();
         MapHelper.ValidateMap(settings);
 
-
 // SHOW NODES
 //        ArrayList<Node> testElements = MongoDBHelper.GetAll();
 //        testElements.forEach(System.out::println);

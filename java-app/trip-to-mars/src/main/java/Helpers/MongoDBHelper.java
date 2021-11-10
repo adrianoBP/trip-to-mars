@@ -2,12 +2,8 @@ package Helpers;
 
 import Models.Node;
 import Models.Option;
-import Models.Test;
 import com.google.gson.*;
-import com.mongodb.*;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
-import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.*;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
 import org.bson.Document;
@@ -21,6 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class MongoDBHelper {
+
 
     private static final String databaseName = "PAPL-trip-to-mars";
     private static final String nodesCollectionName = "node-data";
@@ -41,8 +38,8 @@ public class MongoDBHelper {
 
     public static void Init() {
 
-        MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb+srv://" +
-                AppSettings.MongoDBUsername + ":" + AppSettings.MongoDBPassword + "@adriano-bp.lu0vf.mongodb.net"));
+        MongoClient mongoClient = MongoClients.create("mongodb+srv://" +
+                AppSettings.MongoDBUsername + ":" + AppSettings.MongoDBPassword + "@adriano-bp.lu0vf.mongodb.net");
 
         MongoDatabase mongoDB = mongoClient.getDatabase(databaseName);
         nodesCollection = mongoDB.getCollection(nodesCollectionName);
