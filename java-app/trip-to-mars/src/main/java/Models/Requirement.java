@@ -6,23 +6,33 @@ import org.bson.Document;
 public class Requirement {
 
     @SerializedName(value = "name")
-    public String Name = "";
+    private String name = "";
+
+    public String getName() {return name;}
+
+    public void setName(String name) {this.name = name;}
+
 
     @SerializedName(value = "must-exist")
-    public boolean MustExist = false;
+    private boolean mustExist = false;
+
+    public boolean mustExist() {return mustExist;}
+
+    public void setMustExist(boolean mustExist) {this.mustExist = mustExist;}
+
 
     public Requirement() {}
 
     public Requirement(String name, boolean mustExist) {
-        this.Name = name;
-        this.MustExist = mustExist;
+        this.setName(name);
+        this.setMustExist(mustExist);
     }
 
     public Document toBson() {
 
         Document bsonDocument = new Document();
-        bsonDocument.put("name", Name);
-        bsonDocument.put("must-exist", MustExist);
+        bsonDocument.put("name", this.getName());
+        bsonDocument.put("must-exist", this.mustExist);
 
         return bsonDocument;
     }

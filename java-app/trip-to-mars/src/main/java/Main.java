@@ -1,9 +1,9 @@
-import Helpers.AppSettings;
-import Helpers.MapHelper;
-import Helpers.MongoDBHelper;
+import Helpers.*;
 import Models.UserSettings;
 
 import java.util.List;
+
+import static Helpers.IOUtilities.*;
 
 public class Main {
 
@@ -11,17 +11,22 @@ public class Main {
 
         System.out.println("Started");
 
-        AppSettings.Init();
-        MongoDBHelper.Init();
+
+        AppSettings.init();
+        MongoDBHelper.init();
 
         // TODO: Get saved settings
         UserSettings settings = new UserSettings();
-        settings.SavedItems = List.of("PEN");
+        settings.setSavedItems(List.of("PEN"));
 
 
+        MapHelper.buildMap();
+        MapHelper.MapData mapData = MapHelper.validateMap(settings);
 
-        MapHelper.BuildMap();
-        MapHelper.ValidateMap(settings);
+        getStringFromConsole("Awaiting input ...");
+
+        printLine("Nodes: " + mapData.MapValidationData.ExploredNodes.size() + " / " + mapData.MapNodes.size());
+        printLine("Total endings: " + mapData.MapValidationData.Endings.size());
 
 // SHOW NODES
 //        ArrayList<Node> testElements = MongoDBHelper.GetAll();
