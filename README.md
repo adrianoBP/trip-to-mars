@@ -6,7 +6,7 @@ Programming Applications and Languages (PAPL) Coursework
 
 Path: `src/main/resources/app.config`
 
-Content: 
+Content:
 
 ```shell
 mongodb.username=<MongoDB Username>
@@ -29,7 +29,7 @@ mongodb.collection.users=<MongoDB Users Collection>
 | `description` | `String` | Main body description of the node |
 | `item-to-save` | `String` | Item saved in the user settings once the node is retrieved |
 | `is-beginning` | `Boolean` | Indicates if the node is the beginning of the map |
-| `options` | `List<`[Option](#option-class)`>` | List of paths from the node |
+| `options` | <code>List<[Option](#option-class)></code> | List of paths from the node |
 
 #### Option class
 
@@ -37,7 +37,7 @@ mongodb.collection.users=<MongoDB Users Collection>
 | ----- | ---- | ----------- |
 | `node-id` | `ObjectId` | Identifiers the id of the option node |
 | `chance` | `Integer` | Percentage out of 100 indicating the chance of this option being selected |
-| `requirements` | `List<`[Requirement](#requirement-class)`>`  | List of requirements for the option to be available |
+| `requirements` | <code>List<[Requirement](#requirement-class)></code>  | List of requirements for the option to be available |
 
 #### Requirement class
 
