@@ -2,13 +2,22 @@ package Helpers;
 
 import Models.Node;
 import Models.Option;
+import Models.Requirement;
+import Models.UserSettings;
+import com.mongodb.client.model.Filters;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class MapHelper {
 
     public static void BuildMap() {
+
+        List<Node> startingNodes = MongoDBHelper.GetNodes(Filters.eq("is-beginning", true));
+        if (startingNodes.size() > 0)
+            return;
 
         // s0 -> start
         // sX -> system choice
@@ -26,10 +35,10 @@ public class MapHelper {
         String c1 = MongoDBHelper.InsertNode(new Node("Non critical", ""));
         String c2 = MongoDBHelper.InsertNode(new Node("Critical", ""));
         String u4 = MongoDBHelper.InsertNode(new Node("Investigate and fix", ""));
-        String u5 = MongoDBHelper.InsertNode(new Node("Ignore", ""));
+        String u5 = MongoDBHelper.InsertNode(new Node("Fix the issue", ""));
         String c3 = MongoDBHelper.InsertNode(new Node("All good", ""));
         String s4 = MongoDBHelper.InsertNode(new Node("Ventilation system issue", "According to the system, you should be able to change route and turn back"));
-        String u6 = MongoDBHelper.InsertNode(new Node("Ignore", ""));
+        String u6 = MongoDBHelper.InsertNode(new Node("Turn back", ""));
         String u7 = MongoDBHelper.InsertNode(new Node("Ignore", ""));
         String s5 = MongoDBHelper.InsertNode(new Node("Is it enough?", "According to your team's calculations, there isn't enough oxygen for the trip back"));
         String u8 = MongoDBHelper.InsertNode(new Node("Trust the system", ""));
@@ -121,8 +130,8 @@ public class MapHelper {
         MongoDBHelper.AddNodeOptions(u7, options);
 
         options = new ArrayList<>();
-        options.add(new Option(s7, 0, List.of("PEN")));
-        options.add(new Option(s9, 0));
+        options.add(new Option(s7, 0, List.of(new Requirement("PEN", true))));
+        options.add(new Option(s9, 0, List.of(new Requirement("PEN", false))));
         MongoDBHelper.AddNodeOptions(s6, options);
 
         options = new ArrayList<>();
@@ -141,5 +150,69 @@ public class MapHelper {
         options = new ArrayList<>();
         options.add(new Option(c3, 0));
         MongoDBHelper.AddNodeOptions(s10, options);
+
+    }
+
+
+    public static void ValidateMap(UserSettings userSettings) throws Exception {
+
+        List<Node> allNodes = MongoDBHelper.GetNodes();
+        Map<String, Node> nodeIdToNode = allNodes.stream().collect(Collectors.toMap(
+                node -> node.Id,
+                node -> node
+        ));
+
+        List<Node> startingNodes = allNodes
+                .stream()
+                .filter(node -> node.IsBeginning)
+                .collect(Collectors.toList());
+
+        if (startingNodes.size() == 0)
+            throw new Exception("No starting nodes found");
+        else if (startingNodes.size() > 1)
+            throw new Exception("Multiple starting nodes found");
+
+        MapValidationData resultData = ValidatePath(nodeIdToNode, startingNodes.get(0), userSettings);
+
+        System.out.println("Nodes: " + resultData.ExploredNodes.size() + " / " + allNodes.size());
+        System.out.println("Total endings: " + resultData.Endings.size());
+
+    }
+
+    private static MapValidationData ValidatePath(Map<String, Node> allNodes, Node currentNode, UserSettings userSettings) {
+
+        List<Node> nodeOptions = currentNode.Options
+                .stream()
+                .map(option -> allNodes.get(option.NodeId))
+                .collect(Collectors.toList());
+
+        MapValidationData data = new MapValidationData(currentNode.Id);
+
+        if (nodeOptions.size() == 0) {
+            data.Endings.add(currentNode.Id);
+            return data;
+        }
+
+        for (Node node : nodeOptions) {
+
+            MapValidationData pathData = ValidatePath(allNodes, node, userSettings);
+
+            data.ExploredNodes.addAll(pathData.ExploredNodes);
+            data.Endings.addAll(pathData.Endings);
+        }
+
+        data.ExploredNodes = data.ExploredNodes.stream().distinct().collect(Collectors.toList());
+        data.Endings = data.Endings.stream().distinct().collect(Collectors.toList());
+        return data;
+    }
+
+    private static class MapValidationData {
+
+        public List<String> ExploredNodes = new ArrayList<>();
+        public List<String> Endings = new ArrayList<>();
+
+        public MapValidationData(String nodeId) {
+            ExploredNodes.add(nodeId);
+        }
     }
 }

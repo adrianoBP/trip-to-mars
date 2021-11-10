@@ -11,6 +11,7 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.bson.json.JsonWriterSettings;
 import org.bson.types.ObjectId;
 
@@ -21,10 +22,13 @@ import java.util.stream.Collectors;
 
 public class MongoDBHelper {
 
+    private static final String databaseName = "PAPL-trip-to-mars";
     private static final String nodesCollectionName = "node-data";
     private static final String usersCollectionName = "user-data";
 
-    private static MongoDatabase mongoDB = null;
+    private static MongoCollection<Document> nodesCollection;
+    private static MongoCollection<Document> userDataCollection;
+
     private static final JsonWriterSettings settings = JsonWriterSettings.builder()
             .objectIdConverter((value, writer) -> writer.writeString(value.toString()))
             .dateTimeConverter((value, writer) -> writer.writeString(value.toString()))
@@ -37,16 +41,31 @@ public class MongoDBHelper {
 
     public static void Init() {
 
-        MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb+srv://" + AppSettings.MongoDBUsername + ":" + AppSettings.MongoDBPassword + "@adriano-bp.lu0vf.mongodb.net"));
-        mongoDB = mongoClient.getDatabase("PAPL-trip-to-mars");
+        MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb+srv://" +
+                AppSettings.MongoDBUsername + ":" + AppSettings.MongoDBPassword + "@adriano-bp.lu0vf.mongodb.net"));
+
+        MongoDatabase mongoDB = mongoClient.getDatabase(databaseName);
+        nodesCollection = mongoDB.getCollection(nodesCollectionName);
+        userDataCollection = mongoDB.getCollection(usersCollectionName);
     }
+
+
+    public static List<Node> GetNodes() {
+
+        MongoCursor<Document> cursor = nodesCollection.find().cursor();
+        return CursorToNodes(cursor);
+    }
+
+    public static List<Node> GetNodes(Bson filter) {
+        MongoCursor<Document> cursor = nodesCollection.find(filter).cursor();
+        return CursorToNodes(cursor);
+    }
+
 
     public static String InsertNode(Node node) {
 
-        MongoCollection<Document> collection = mongoDB.getCollection(nodesCollectionName);
-
         Document docToInsert = node.toBson();
-        collection.insertOne(docToInsert);
+        nodesCollection.insertOne(docToInsert);
 
         return docToInsert.getObjectId("_id").toString();
     }
@@ -55,50 +74,41 @@ public class MongoDBHelper {
 
         List<Document> optionsDocuments = options.stream().map(Option::toBson).collect(Collectors.toList());
 
-        MongoCollection<Document> collection = mongoDB.getCollection(nodesCollectionName);
-        collection.updateOne(
+        nodesCollection.updateOne(
                 Filters.eq("_id", new ObjectId(id)),
                 Updates.combine(
                         Updates.set("options", optionsDocuments)
                 ));
     }
 
-    public static void UpdateNode(String id, Updates updates) {
+//    public static void UpdateNode(String id, Updates updates) {
+//
+//        MongoCollection<Document> collection = mongoDB.getCollection(nodesCollectionName);
+//        collection.updateOne(
+//                Filters.eq("_id", new ObjectId(id)),
+//                Updates.combine(
+//                        Updates.set("name", "NAME UPDATED AGAIN"),
+//                        Updates.set("age", 4)
+//                ));
+//    }
 
-        MongoCollection<Document> collection = mongoDB.getCollection(nodesCollectionName);
-        collection.updateOne(
-                Filters.eq("_id", new ObjectId(id)),
-                Updates.combine(
-                        Updates.set("name", "NAME UPDATED AGAIN"),
-                        Updates.set("age", 4)
-                ));
-    }
-
-    public static void AddNewNodeProperty(String name, Object value) {
-
-        ArrayList<Node> availableNodes = GetAll();
-        MongoCollection<Document> collection = mongoDB.getCollection(nodesCollectionName);
-
-        for (Node n : availableNodes) {
-            collection.updateOne(
-                    Filters.eq("_id", new ObjectId(n.Id)),
-                    Updates.combine(
-                            Updates.set(name, value)
-                    ));
-        }
-    }
-
-
-    public static ArrayList<Node> GetAll() {
-
-        MongoCollection<Document> collection = mongoDB.getCollection(nodesCollectionName);
-        MongoCursor<Document> cursor = collection.find().cursor();
-        return CursorToNodes(cursor);
-    }
+//    public static void AddNewNodeProperty(String name, Object value) {
+//
+//        List<Node> availableNodes = GetAll();
+//        MongoCollection<Document> collection = mongoDB.getCollection(nodesCollectionName);
+//
+//        for (Node n : availableNodes) {
+//            collection.updateOne(
+//                    Filters.eq("_id", new ObjectId(n.Id)),
+//                    Updates.combine(
+//                            Updates.set(name, value)
+//                    ));
+//        }
+//    }
 
 
-    private static ArrayList<Node> CursorToNodes(MongoCursor<Document> cursor) {
-        ArrayList<Node> documents = new ArrayList<>();
+    private static List<Node> CursorToNodes(MongoCursor<Document> cursor) {
+        List<Node> documents = new ArrayList<>();
 
         while (cursor.hasNext()) {
 

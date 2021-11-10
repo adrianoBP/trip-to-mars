@@ -5,6 +5,7 @@ import org.bson.Document;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Option {
 
@@ -15,7 +16,7 @@ public class Option {
     public double Chance;
 
     @SerializedName(value = "requirements")
-    public List<String> Requirements = new ArrayList<>();
+    public List<Requirement> Requirements = new ArrayList<>();
 
     public Option() {}
 
@@ -24,7 +25,7 @@ public class Option {
         this.Chance = chance;
     }
 
-    public Option(String nodeId, double chance, List<String> requirements) {
+    public Option(String nodeId, double chance, List<Requirement> requirements) {
         this.NodeId = nodeId;
         this.Chance = chance;
         this.Requirements = requirements;
@@ -35,7 +36,9 @@ public class Option {
         Document bsonDocument = new Document();
         bsonDocument.put("node-id", NodeId);
         bsonDocument.put("chance", Chance);
-        bsonDocument.put("requirements", Requirements);
+
+        List<Document> requirements = Requirements.stream().map(Requirement::toBson).collect(Collectors.toList());
+        bsonDocument.put("requirements", requirements);
 
         return bsonDocument;
     }
