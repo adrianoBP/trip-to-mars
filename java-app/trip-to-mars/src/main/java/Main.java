@@ -1,4 +1,5 @@
 import Helpers.*;
+import Models.Node;
 import Models.UserSettings;
 
 import java.util.List;
@@ -25,8 +26,17 @@ public class Main {
 
         getStringFromConsole("Awaiting input ...");
 
-        printLine("Nodes: " + mapData.MapValidationData.ExploredNodes.size() + " / " + mapData.MapNodes.size());
-        printLine("Total endings: " + mapData.MapValidationData.Endings.size());
+        printLine("Nodes: " + mapData.getMapValidationData().getExploredNodes().size() + " / " + mapData.getMapNodes().size());
+        printLine("Total endings: " + mapData.getMapValidationData().getEndings().size());
+
+        printLine();
+
+        printLine("-- GAME START --");
+        printLine();
+
+//        Node currentNode = mapData.
+//        while()
+
 
 // SHOW NODES
 //        ArrayList<Node> testElements = MongoDBHelper.GetAll();

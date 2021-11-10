@@ -159,14 +159,14 @@ public class MapHelper {
 
         MapData mapData = new MapData();
 
-        mapData.MapNodes = MongoDBHelper.getNodes()
+        mapData.setMapNodes(MongoDBHelper.getNodes()
                 .stream()
                 .collect(Collectors.toMap(
                         node -> node.getId(),
                         node -> node
-                ));
+                )));
 
-        List<Node> startingNodes = mapData.MapNodes.values()
+        List<Node> startingNodes = mapData.getMapNodes().values()
                 .stream()
                 .filter(Node::isBeginning)
                 .collect(Collectors.toList());
@@ -177,8 +177,8 @@ public class MapHelper {
             throw new Exception("Multiple starting nodes found");
 
 
-        mapData.StartingNode = startingNodes.get(0);
-        mapData.MapValidationData = validatePath(mapData.MapNodes, mapData.StartingNode, userSettings);
+        mapData.setStartingNode(startingNodes.get(0));
+        mapData.setMapValidationData(validatePath(mapData.getMapNodes(), mapData.getStartingNode(), userSettings));
 
         return mapData;
     }
@@ -193,7 +193,7 @@ public class MapHelper {
         MapValidationData data = new MapValidationData(currentNode.getId());
 
         if (nodeOptions.size() == 0) {
-            data.Endings.add(currentNode.getId());
+            data.addEnding(currentNode.getId());
             return data;
         }
 
@@ -201,33 +201,63 @@ public class MapHelper {
 
             MapValidationData pathData = validatePath(allNodes, node, userSettings);
 
-            data.ExploredNodes.addAll(pathData.ExploredNodes);
-            data.Endings.addAll(pathData.Endings);
+            data.getExploredNodes().addAll(pathData.getExploredNodes());
+            data.getEndings().addAll(pathData.getEndings());
         }
 
-        data.ExploredNodes = data.ExploredNodes.stream().distinct().collect(Collectors.toList());
-        data.Endings = data.Endings.stream().distinct().collect(Collectors.toList());
+        data.setExploredNodes(data.getExploredNodes().stream().distinct().collect(Collectors.toList()));
+        data.setEndings(data.getEndings().stream().distinct().collect(Collectors.toList()));
         return data;
     }
 
     public static class MapValidationData {
 
-        public List<String> ExploredNodes = new ArrayList<>();
-        public List<String> Endings = new ArrayList<>();
+        private List<String> exploredNodes = new ArrayList<>();
 
-        public MapValidationData() {}
+        public List<String> getExploredNodes() {return exploredNodes;}
 
-        public MapValidationData(String nodeId) {
-            ExploredNodes.add(nodeId);
+        public void setExploredNodes(List<String> exploredNodes) {this.exploredNodes = exploredNodes;}
+
+        public void addExploredNode(String exploredNode) {exploredNodes.add(exploredNode);}
+
+
+        private ArrayList<String> endings = new ArrayList<>();
+
+        public ArrayList<String> getEndings() {return endings;}
+
+        public void setEndings(List<String> endings) {this.endings = new ArrayList<>(endings);}
+
+        public void addEnding(String ending) {this.endings.add(ending);}
+
+
+        private MapValidationData() {}
+
+        private MapValidationData(String nodeId) {
+            addExploredNode(nodeId);
         }
     }
 
     public static class MapData {
 
-        public Node StartingNode = new Node();
-        public Map<String, Node> MapNodes = new HashMap<>();
+        private Node startingNode = new Node();
 
-        public MapValidationData MapValidationData = new MapValidationData();
+        public Node getStartingNode() {return startingNode;}
+
+        public void setStartingNode(Node startingNode) {this.startingNode = startingNode;}
+
+
+        private Map<String, Node> mapNodes = new HashMap<>();
+
+        public Map<String, Node> getMapNodes() {return mapNodes;}
+
+        public void setMapNodes(Map<String, Node> mapNodes) {this.mapNodes = mapNodes;}
+
+
+        private MapValidationData mapValidationData = new MapValidationData();
+
+        public MapValidationData getMapValidationData() {return mapValidationData;}
+
+        public void setMapValidationData(MapValidationData mapValidationData) {this.mapValidationData = mapValidationData;}
 
     }
 }

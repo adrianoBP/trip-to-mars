@@ -33,6 +33,8 @@ public class Option {
 
     public void setRequirements(List<Requirement> requirements) {this.requirements = requirements;}
 
+    public void addRequirement(Requirement requirement) {this.requirements.add(requirement);}
+
 
     public Option() {}
 

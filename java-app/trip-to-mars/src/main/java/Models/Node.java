@@ -36,14 +36,6 @@ public class Node {
     public void setDescription(String description) {this.description = description;}
 
 
-    @SerializedName(value = "options")
-    private List<Option> options = new ArrayList<>();
-
-    public List<Option> getOptions() {return options;}
-
-    public void setOptions(List<Option> options) {this.options = options;}
-
-
     @SerializedName(value = "item-to-save")
     private String itemToSave = "";
 
@@ -58,6 +50,16 @@ public class Node {
     public boolean isBeginning() {return isBeginning;}
 
     public void setBeginning(boolean beginning) {isBeginning = beginning;}
+
+
+    @SerializedName(value = "options")
+    private List<Option> options = new ArrayList<>();
+
+    public List<Option> getOptions() {return options;}
+
+    public void setOptions(List<Option> options) {this.options = options;}
+
+    public void addOption(Option option) {this.options.add(option);}
 
 
     public Node() {}
