@@ -24,27 +24,27 @@ mongodb.collection.users=<MongoDB Users Collection>
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| `_id` | `ObjectId` | Node identifier |
-| `title` | `String` | Short description of the node |
-| `description` | `String` | Main body description of the node |
-| `item-to-save` | `String` | Item saved in the user settings once the node is retrieved |
-| `is-beginning` | `Boolean` | Indicates if the node is the beginning of the map |
-| `options` | <code>List<[Option](#option-class)></code> | List of paths from the node |
+| *_id* | `ObjectId` | Node identifier |
+| *title* | `String` | Short description of the node |
+| *description* | `String` | Main body description of the node |
+| *item-to-save* | `String` | Item saved in the user settings once the node is retrieved |
+| *is-beginning* | `Boolean` | Indicates if the node is the beginning of the map |
+| *options* | <code>List<[Option](#option-class)></code> | List of paths from the node |
 
 #### Option class
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| `node-id` | `ObjectId` | Identifiers the id of the option node |
-| `chance` | `Integer` | Percentage out of 100 indicating the chance of this option being selected |
-| `requirements` | <code>List<[Requirement](#requirement-class)></code>  | List of requirements for the option to be available |
+| *node-id* | `ObjectId` | Identifiers the id of the option node |
+| *chance* | `Integer` | Percentage out of 100 indicating the chance of this option being selected |
+| *requirements* | <code>List<[Requirement](#requirement-class)></code>  | List of requirements for the option to be available |
 
 #### Requirement class
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| `name` | `String` | Name of the item to check the validity against |
-| `must-exist` | `Boolean` | Indicates if the item has to be present or not for the option to be available |
+| *name* | `String` | Name of the item to check the validity against |
+| *must-exist* | `Boolean` | Indicates if the item has to be present or not for the option to be available |
 
 ### Example
 
