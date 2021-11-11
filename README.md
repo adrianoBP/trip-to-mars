@@ -32,7 +32,7 @@ filesystem.path.users=src/main/resources/user-data.json
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| *node-id* | `ObjectId` | Identifiers the id of the option node |
+| *node-id* | `UUID` | Identifiers the id of the option node |
 | *chance* | `Integer` | Percentage out of 100 indicating the chance of this option being selected |
 | *requirements* | <code>List<[Requirement](#requirement-class)></code>  | List of requirements for the option to be available |
 
