@@ -1,6 +1,7 @@
 import Helpers.*;
 import Models.Node;
 import Models.UserSettings;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -12,17 +13,14 @@ public class Main {
 
         System.out.println("Started");
 
-
         AppSettings.init();
         MongoDBHelper.init();
 
         // TODO: Get saved settings
-        UserSettings settings = new UserSettings();
-        settings.setSavedItems(List.of("PEN"));
-
+        UserSettings userSettings = new UserSettings();
 
         MapHelper.buildMap();
-        MapHelper.MapData mapData = MapHelper.validateMap(settings);
+        MapHelper.MapData mapData = MapHelper.validateMap(userSettings);
 
         getStringFromConsole("Awaiting input ...");
 
@@ -34,13 +32,52 @@ public class Main {
         printLine("-- GAME START --");
         printLine();
 
-//        Node currentNode = mapData.
-//        while()
+        boolean isUserChoice = false;
+        Node currentNode = mapData.getStartingNode();
+        while (currentNode.getOptions().size() > 0) {
 
+            List<Node> availableNodes = LogicHelper.getNextNodes(mapData.getMapNodes(), currentNode, userSettings);
 
-// SHOW NODES
-//        ArrayList<Node> testElements = MongoDBHelper.GetAll();
-//        testElements.forEach(System.out::println);
+            if (!StringUtils.isBlank(currentNode.getItemToSave()))
+                LogicHelper.SaveResult(currentNode.getItemToSave(), userSettings); // TODO
 
+            // We don't want to print the selected choice again
+            if (isUserChoice && availableNodes.size() == 1) {
+                currentNode = mapData.getMapNodes().get(availableNodes.get(0).getId());
+                isUserChoice = false;
+                continue;
+            }
+
+            printLine();
+            printLine(currentNode.getTitle());
+
+            isUserChoice = false;
+
+            if (availableNodes.size() == 0) {  // End reached
+                currentNode = new Node();
+            } else if (availableNodes.size() == 1) {  // System or chance based decision
+                currentNode = mapData.getMapNodes().get(availableNodes.get(0).getId());
+            } else {  // User based decision
+
+                for (int i = 0; i < availableNodes.size(); i++) {
+                    printLine("[" + (i + 1) + "] " + availableNodes.get(i).getTitle());
+                }
+
+                int selectedOption = getIntFromConsole() - 1;
+                // TODO: Handle selected < 0 or > size
+
+                currentNode = mapData.getMapNodes().get(availableNodes.get(selectedOption).getId());
+
+                isUserChoice = true;
+            }
+
+            if (!isUserChoice)
+                getStringFromConsole("Press ENTER to continue  ...");
+        }
+
+        printLine();
+        printLine(currentNode.getTitle());
+
+        printLine("-- GAME END --");
     }
 }

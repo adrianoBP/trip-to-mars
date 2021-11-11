@@ -36,11 +36,11 @@ public class MapHelper {
         String c1 = MongoDBHelper.insertNode(new Node("Non critical", ""));
         String c2 = MongoDBHelper.insertNode(new Node("Critical", ""));
         String u4 = MongoDBHelper.insertNode(new Node("Investigate and fix", ""));
-        String u5 = MongoDBHelper.insertNode(new Node("Fix the issue", ""));
+        String u5 = MongoDBHelper.insertNode(new Node("Ignore the issue", ""));
         String c3 = MongoDBHelper.insertNode(new Node("All good", ""));
         String s4 = MongoDBHelper.insertNode(new Node("Ventilation system issue", "According to the system, you should be able to change route and turn back"));
         String u6 = MongoDBHelper.insertNode(new Node("Turn back", ""));
-        String u7 = MongoDBHelper.insertNode(new Node("Ignore", ""));
+        String u7 = MongoDBHelper.insertNode(new Node("Try to fix the issue", ""));
         String s5 = MongoDBHelper.insertNode(new Node("Is it enough?", "According to your team's calculations, there isn't enough oxygen for the trip back"));
         String u8 = MongoDBHelper.insertNode(new Node("Trust the system", ""));
         String u9 = MongoDBHelper.insertNode(new Node("Sacrifice yourself", ""));

@@ -16,5 +16,11 @@ public class UserSettings {
 
     public List<String> getSavedItems() {return savedItems;}
 
+    public boolean hasSavedItem(String item) {return savedItems.contains(item);}
+
     public void setSavedItems(List<String> savedItems) {this.savedItems = savedItems;}
+
+    public void addSavedItem(String item) {this.savedItems.add(item);}
+
+    public void removeSavedItem(String item) {this.savedItems.remove(item);}
 }

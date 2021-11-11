@@ -11,11 +11,15 @@ import java.util.Map;
 
 public class LogicHelper {
 
-    public static void SaveResult() {
+    public static void SaveResult(String item, UserSettings userSettings) {
 
-        // TODO: If the node contains save-result == true, save the option in user settings
+        if (userSettings.hasSavedItem(item)) {
+            userSettings.removeSavedItem(item);
+        }else {
+            userSettings.addSavedItem(item);
+        }
 
-        // TODO: If the option is already saved, remove it
+        // TODO: Save in MongoDB
     }
 
     public static List<Node> getNextNodes(Map<String, Node> availableNodes, Node currentNode, UserSettings userSettings)

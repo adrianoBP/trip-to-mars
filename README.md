@@ -46,7 +46,7 @@ mongodb.collection.users=<MongoDB Users Collection>
 | *name* | `String` | Name of the item to check the validity against |
 | *must-exist* | `Boolean` | Indicates if the item has to be present or not for the option to be available |
 
-### Example
+### Node Document Example
 
 ```json
 {
@@ -65,17 +65,17 @@ mongodb.collection.users=<MongoDB Users Collection>
           "must-exist": true
         }
       ]
-    },
-    {
-      "node-id": "618bfa303bfb483a60c37932",
-      "chance": 0,
-      "requirements": [
-        {
-          "name": "PEN",
-          "must-exist": false
-        }
-      ]
     }
   ]
 }
 ```
+
+## Logic
+
+1. IF all the options have a chance != 0, THEN pick a random option based on the chance (**chance based decision**)
+
+2. IF all the options have a chance == 0, THEN display all the options (**user based decision**)
+
+3. IF the option contains requirements OR there's only one available node (story line), THEN pick the node meeting the requirements (**system based decision**)
+
+4. IF there are no options, THEN the end has been reached
