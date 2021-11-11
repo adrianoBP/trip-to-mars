@@ -14,13 +14,13 @@ public class Main {
         System.out.println("Started");
 
         AppSettings.init();
-        MongoDBHelper.init();
+        FSHelper fsHelper = new FSHelper();
 
         // TODO: Get saved settings
         UserSettings userSettings = new UserSettings();
 
         MapHelper.buildMap();
-        MapHelper.MapData mapData = MapHelper.validateMap(userSettings);
+        MapHelper.MapData mapData = MapHelper.validateMap(userSettings, fsHelper);
 
         getStringFromConsole("Awaiting input ...");
 

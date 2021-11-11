@@ -1,12 +1,9 @@
 package Models;
 
 import com.google.gson.annotations.SerializedName;
-import org.bson.Document;
-import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Option {
 
@@ -47,18 +44,5 @@ public class Option {
         this.setNodeId(nodeId);
         this.setChance(chance);
         this.setRequirements(requirements);
-    }
-
-    public Document toBson() {
-
-        Document bsonDocument = new Document();
-        bsonDocument.put("node-id", new ObjectId(this.getNodeId()));
-        bsonDocument.put("chance", this.getChance());
-
-        List<Document> requirements = this.getRequirements().stream().map(Requirement::toBson)
-                .collect(Collectors.toList());
-        bsonDocument.put("requirements", requirements);
-
-        return bsonDocument;
     }
 }

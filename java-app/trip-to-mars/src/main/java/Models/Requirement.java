@@ -1,7 +1,6 @@
 package Models;
 
 import com.google.gson.annotations.SerializedName;
-import org.bson.Document;
 
 public class Requirement {
 
@@ -26,14 +25,5 @@ public class Requirement {
     public Requirement(String name, boolean mustExist) {
         this.setName(name);
         this.setMustExist(mustExist);
-    }
-
-    public Document toBson() {
-
-        Document bsonDocument = new Document();
-        bsonDocument.put("name", this.getName());
-        bsonDocument.put("must-exist", this.mustExist);
-
-        return bsonDocument;
     }
 }

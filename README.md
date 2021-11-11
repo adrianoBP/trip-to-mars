@@ -9,11 +9,8 @@ Path: `src/main/resources/app.config`
 Content:
 
 ```shell
-mongodb.username=<MongoDB Username>
-mongodb.password=<MongoDB Password>
-mongodb.database=<MongoDB Database>
-mongodb.collection.nodes=<MongoDB Nodes Collection>
-mongodb.collection.users=<MongoDB Users Collection>
+filesystem.path.nodes=src/main/resources/node-data.json
+filesystem.path.users=src/main/resources/user-data.json
 ```
 
 ## Node composition
@@ -24,7 +21,7 @@ mongodb.collection.users=<MongoDB Users Collection>
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| *_id* | `ObjectId` | Node identifier |
+| *_id* | `UUID` | Node identifier |
 | *title* | `String` | Short description of the node |
 | *description* | `String` | Main body description of the node |
 | *item-to-save* | `String` | Item saved in the user settings once the node is retrieved |
@@ -48,26 +45,30 @@ mongodb.collection.users=<MongoDB Users Collection>
 
 ### Node Document Example
 
+Path (Java): `src/main/resources/node-data.json`
+
 ```json
-{
-  "_id": "618bfa303bfb483a60c3792f",
-  "title": "A hole!",
-  "description": "You discover a hole in a critical section of the spaceship",
-  "item-to-save": "",
-  "is-beginning": false,
-  "options": [
-    {
-      "node-id": "618bfa303bfb483a60c37930",
-      "chance": 0,
-      "requirements": [
-        {
-          "name": "PEN",
-          "must-exist": true
-        }
-      ]
-    }
-  ]
-}
+[
+  {
+    "_id": "257fc0da-fd2f-4e3b-b084-0c31e62efba3",
+    "title": "A hole!",
+    "description": "You discover a hole in a critical section of the spaceship",
+    "item-to-save": "",
+    "is-beginning": false,
+    "options": [
+      {
+        "node-id": "b8056806-12f9-4c13-8d66-610304cdde50",
+        "chance": 0,
+        "requirements": [
+          {
+            "name": "PEN",
+            "must-exist": true
+          }
+        ]
+      }
+    ]
+  }
+]
 ```
 
 ## Logic

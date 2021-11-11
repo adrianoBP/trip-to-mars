@@ -1,11 +1,10 @@
 package Models;
 
 import com.google.gson.annotations.SerializedName;
-import org.bson.Document;
-import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class Node {
@@ -16,8 +15,6 @@ public class Node {
     public String getId() {return id;}
 
     public void setId(String id) {this.id = id;}
-
-    public void setId(ObjectId id) {this.id = id.toString();}
 
 
     @SerializedName(value = "title")
@@ -80,18 +77,5 @@ public class Node {
         this.setDescription(description);
         this.setItemToSave(itemToSave);
         this.setBeginning(isBeginning);
-    }
-
-    public Document toBson() {
-
-        Document bsonDocument = new Document();
-        bsonDocument.put("title", this.getTitle());
-        bsonDocument.put("description", this.getDescription());
-        bsonDocument.put("item-to-save", this.getItemToSave());
-        bsonDocument.put("is-beginning", this.isBeginning);
-
-        List<Document> options = this.getOptions().stream().map(Option::toBson).collect(Collectors.toList());
-        bsonDocument.put("options", options);
-        return bsonDocument;
     }
 }

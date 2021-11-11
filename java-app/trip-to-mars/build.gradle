@@ -12,7 +12,6 @@ repositories {
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
-    implementation 'org.mongodb:mongo-java-driver:3.12.10'
     implementation 'com.google.code.gson:gson:2.8.9'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.0.1'
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
