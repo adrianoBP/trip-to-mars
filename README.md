@@ -4,13 +4,18 @@ Programming Applications and Languages (PAPL) Coursework
 
 ## Config settings
 
-Path: `src/main/resources/app.config`
-
-Content:
+Path (Java): `src/main/resources/app.config`
 
 ```shell
 filesystem.path.nodes=src/main/resources/node-data.json
 filesystem.path.users=src/main/resources/user-data.json
+```
+
+Path (Android): `src/main/res/raw/app.config`
+
+```shell
+filesystem.path.nodes=node-data.json
+filesystem.path.users=user-data.json
 ```
 
 ## Node composition
@@ -45,7 +50,8 @@ filesystem.path.users=src/main/resources/user-data.json
 
 ### Node Document Example
 
-Path (Java): `src/main/resources/node-data.json`
+- Path (Java): `src/main/resources/node-data.json`
+- Path (Android): `/data/user/0/com.up2037954.triptomars/files/node-data.json`
 
 ```json
 [

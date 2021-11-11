@@ -1,7 +1,6 @@
 ##############################
 # Trip to Mars
 ##############################
-app.config
 node-data.json
 user-data.json
 
