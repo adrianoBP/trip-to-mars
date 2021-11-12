@@ -9,6 +9,7 @@ import com.up2037954.triptomars.Models.UserSettings;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,13 +17,13 @@ import java.util.stream.Collectors;
 
 public class MapHelper {
 
-    public static void buildMap(Context context) throws IOException {
+    public static FSHelper buildMap(Context context) throws IOException {
 
         FSHelper fsHelper = new FSHelper(context);
 
         List<Node> startingNodes = fsHelper.getNodes().stream().filter(Node::isBeginning).collect(Collectors.toList());
         if (startingNodes.size() > 0)
-            return;
+            return fsHelper;
 
         // s0 -> start
         // sX -> system choice
@@ -135,8 +136,8 @@ public class MapHelper {
         fsHelper.addNodeOptions(u7, options);
 
         options = new ArrayList<>();
-        options.add(new Option(s7, 0, new ArrayList<Requirement>() {{new Requirement("PEN", true);}}));
-        options.add(new Option(s9, 0, new ArrayList<Requirement>() {{new Requirement("PEN", false);}}));
+        options.add(new Option(s7, 0, Collections.singletonList(new Requirement("PEN", true))));
+        options.add(new Option(s9, 0, Collections.singletonList(new Requirement("PEN", false))));
         fsHelper.addNodeOptions(s6, options);
 
         options = new ArrayList<>();
@@ -157,6 +158,7 @@ public class MapHelper {
         fsHelper.addNodeOptions(s10, options);
 
         fsHelper.save();
+        return fsHelper;
     }
 
 
