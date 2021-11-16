@@ -36,29 +36,29 @@ public class Main {
         do {
 
             printLine();
-            printLine(currentStep.node.getTitle());
+            printLine(currentStep.getNode().getTitle());
 
             // By default, assign the first option to be the selected one,
             // we should only have one or more options as it is the main condition in the loop
-            Node selectedOption = currentStep.options.get(0);
+            Node selectedOption = currentStep.getOptions().get(0);
 
-            if (currentStep.options.size() == 1) {
+            if (currentStep.getOptions().size() == 1) {
                 getStringFromConsole("Press ENTER to continue  ...");
             } else {
-                for (int i = 0; i < currentStep.options.size(); i++) {
-                    printLine("[" + (i + 1) + "] " + currentStep.options.get(i).getTitle());
+                for (int i = 0; i < currentStep.getOptions().size(); i++) {
+                    printLine("[" + (i + 1) + "] " + currentStep.getOptions().get(i).getTitle());
                 }
-                selectedOption = currentStep.options.get(getIntFromConsole() - 1);
+                selectedOption = currentStep.getOptions().get(getIntFromConsole() - 1);
             }
 
             mapNavigation.saveOptionInput(selectedOption);
 
-            currentStep = mapNavigation.selectNextStep(currentStep.options.size() > 1);
+            currentStep = mapNavigation.selectNextStep(currentStep.getOptions().size() > 1);
 
-        } while (currentStep.options.size() > 0);
+        } while (currentStep.getOptions().size() > 0);
 
         // Show last step
         printLine();
-        printLine(currentStep.node.getTitle());
+        printLine(currentStep.getNode().getTitle());
     }
 }
