@@ -29,4 +29,9 @@ public class UserSettings {
     }
 
     public void removeSavedItem(String item) {this.savedItems.remove(item);}
+
+
+    public UserSettings() {
+        // TODO: Get saved settings from filesystem
+    }
 }

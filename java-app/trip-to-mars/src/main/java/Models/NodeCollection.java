@@ -46,4 +46,13 @@ public class NodeCollection {
     public List<Node> toList() {
         return new ArrayList<>(nodes.values());
     }
+
+    public Node getStartingNode() {
+
+        for (Node node : toList()) {
+            if (node.isBeginning())
+                return node;
+        }
+        return null;
+    }
 }

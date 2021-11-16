@@ -1,9 +1,6 @@
 package Helpers;
 
-import Models.Node;
-import Models.NodeCollection;
-import Models.Option;
-import Models.UserSettings;
+import Models.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,21 +18,21 @@ public class MapNav {
     }
 
     public Step getStartingStep() {
-        currentNode = getStartingNode();
+        currentNode = nodeCollection.getStartingNode();
         return new Step(currentNode, Objects.requireNonNull(currentNode).getOptions().get(0).getNodeId());
     }
 
     public Step selectNextStep(boolean isUserOption) throws Exception {
 
         // If is a user option, we want to skip to the next node as we don't want to show the option itself
-        if(isUserOption)
+        if (isUserOption)
             this.currentNode = nodeCollection.getNodeById(currentNode.getOptions().get(0).getNodeId());
 
         List<Node> availableNodes = getAvailableNodeOptions();
         userSettings.addSavedItem(currentNode.getItemToSave()); // Save node items
 
         if (availableNodes.size() == 0) {  // End reached
-            return new Step();
+            return new Step(currentNode);
         } else if (availableNodes.size() == 1) {  // System or chance based decision
             return new Step(currentNode, availableNodes.get(0).getId());
         } else {  // User based decision
@@ -46,7 +43,8 @@ public class MapNav {
 
     public void saveOptionInput(Node selectionOption) {
 
-        if (selectionOption.getId() == null) {  // This means that the node is a 'Next' node
+        // Check if the node is a 'next' node - If so, we want to use the 'next' node option directly
+        if (selectionOption.getId() == null) {
             this.currentNode = nodeCollection.getNodeById(selectionOption.getOptions().get(0).getNodeId());
         } else {
             this.currentNode = selectionOption;
@@ -54,32 +52,7 @@ public class MapNav {
         userSettings.addSavedItem(currentNode.getItemToSave()); // Save node items
     }
 
-    public static class Step {
-        public Node node;
-        public List<Node> options = new ArrayList<>();
 
-        public Step() {}
-
-        public Step(Node node, String nextNodeId) {
-            this.node = node;
-            // If there are no options, then create a dummy 'next' option for the user to navigate
-            this.options = List.of(new Node("Next", new Option(nextNodeId)));
-        }
-
-        public Step(Node node, List<Node> options) {
-            this.node = node;
-            this.options = options;
-        }
-    }
-
-    private Node getStartingNode() {
-
-        for (Node node : nodeCollection.toList()) {
-            if (node.isBeginning())
-                return node;
-        }
-        return null;
-    }
 
     public List<Node> getAvailableNodeOptions() throws Exception {
 
@@ -87,18 +60,21 @@ public class MapNav {
             return new ArrayList<>();
         else if (currentNode.getOptions().size() == 1) {  // Story line
             return List.of(nodeCollection.getNodeById(currentNode.getOptions().get(0).getNodeId()));
-        } else {
+        } else {  // User or chance decision
 
             List<Node> availableNodes = new ArrayList<>();
+
+            // If is a chance decision, pick a node randomly (according to chance)
             if (currentNode.getOptions().stream().anyMatch(Option::isChanceOption)) {
                 Option selectedOption = pickOptionByProbability(currentNode);
                 return List.of(nodeCollection.getNodeById(selectedOption.getNodeId()));
             }
+
+            // Otherwise, return the options that the user can make
             for (Option option : currentNode.getOptions()) {
-                if (option.requirementsAreMet(userSettings))  // Check if requirements are met
+                if (option.requirementsAreMet(userSettings))
                     availableNodes.add(nodeCollection.getNodeById(option.getNodeId()));
             }
-
             return availableNodes;
         }
     }

@@ -1,5 +1,6 @@
 import Helpers.*;
 import Models.Node;
+import Models.Step;
 import Models.UserSettings;
 
 import static Helpers.IOUtilities.*;
@@ -12,9 +13,6 @@ public class Main {
 
         AppSettings.init();
 
-        FSHelper fsHelper = new FSHelper();
-
-        // TODO: Get saved settings
         UserSettings userSettings = new UserSettings();
 
         MapHelper.buildMap();
@@ -22,6 +20,8 @@ public class Main {
         newGame(userSettings);
 
         // TODO: Map validation
+        // TODO: Add map build
+        // TODO: Remove FSHelper
         // TODO: Testing - First part of map contains all cases
         // TODO(Investigation): do we need to save to file?
 
@@ -31,7 +31,7 @@ public class Main {
     private static void newGame(UserSettings userSettings) throws Exception {
 
         MapNav mapNavigation = new MapNav(userSettings);
-        MapNav.Step currentStep = mapNavigation.getStartingStep();
+        Step currentStep = mapNavigation.getStartingStep();
 
         do {
 
@@ -56,5 +56,9 @@ public class Main {
             currentStep = mapNavigation.selectNextStep(currentStep.options.size() > 1);
 
         } while (currentStep.options.size() > 0);
+
+        // Show last step
+        printLine();
+        printLine(currentStep.node.getTitle());
     }
 }
