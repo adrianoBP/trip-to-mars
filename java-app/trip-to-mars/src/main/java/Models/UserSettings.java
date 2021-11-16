@@ -1,5 +1,7 @@
 package Models;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +22,11 @@ public class UserSettings {
 
     public void setSavedItems(List<String> savedItems) {this.savedItems = savedItems;}
 
-    public void addSavedItem(String item) {this.savedItems.add(item);}
+    public void addSavedItem(String item) {
+        if (!StringUtils.isEmpty(item))
+            this.savedItems.add(item);
+        // TODO: Save to file
+    }
 
     public void removeSavedItem(String item) {this.savedItems.remove(item);}
 }

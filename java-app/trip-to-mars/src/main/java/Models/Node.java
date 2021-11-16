@@ -76,4 +76,9 @@ public class Node {
         this.setItemToSave(itemToSave);
         this.setBeginning(isBeginning);
     }
+
+    public Node(String title, Option option) {
+        this.setTitle(title);
+        this.options = List.of(option);
+    }
 }

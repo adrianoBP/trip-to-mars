@@ -1,9 +1,6 @@
 import Helpers.*;
 import Models.Node;
 import Models.UserSettings;
-import org.apache.commons.lang3.StringUtils;
-
-import java.util.List;
 
 import static Helpers.IOUtilities.*;
 
@@ -14,70 +11,50 @@ public class Main {
         System.out.println("Started");
 
         AppSettings.init();
+
         FSHelper fsHelper = new FSHelper();
 
         // TODO: Get saved settings
         UserSettings userSettings = new UserSettings();
 
         MapHelper.buildMap();
-        MapHelper.MapData mapData = MapHelper.validateMap(userSettings, fsHelper);
 
-        getStringFromConsole("Awaiting input ...");
+        newGame(userSettings);
 
-        printLine("Nodes: " + mapData.getMapValidationData().getExploredNodes().size() + " / " + mapData.getMapNodes().size());
-        printLine("Total endings: " + mapData.getMapValidationData().getEndings().size());
-
-        printLine();
-
-        printLine("-- GAME START --");
-        printLine();
-
-        boolean isUserChoice = false;
-        Node currentNode = mapData.getStartingNode();
-        while (currentNode.getOptions().size() > 0) {
-
-            List<Node> availableNodes = LogicHelper.getNextNodes(mapData.getMapNodes(), currentNode, userSettings);
-
-            if (!StringUtils.isBlank(currentNode.getItemToSave()))
-                LogicHelper.SaveResult(currentNode.getItemToSave(), userSettings); // TODO
-
-            // We don't want to print the selected choice again
-            if (isUserChoice && availableNodes.size() == 1) {
-                currentNode = mapData.getMapNodes().get(availableNodes.get(0).getId());
-                isUserChoice = false;
-                continue;
-            }
-
-            printLine();
-            printLine(currentNode.getTitle());
-
-            isUserChoice = false;
-
-            if (availableNodes.size() == 0) {  // End reached
-                currentNode = new Node();
-            } else if (availableNodes.size() == 1) {  // System or chance based decision
-                currentNode = mapData.getMapNodes().get(availableNodes.get(0).getId());
-            } else {  // User based decision
-
-                for (int i = 0; i < availableNodes.size(); i++) {
-                    printLine("[" + (i + 1) + "] " + availableNodes.get(i).getTitle());
-                }
-
-                int selectedOption = getIntFromConsole() - 1;
-                // TODO: Handle selected < 0 or > size
-
-                currentNode = mapData.getMapNodes().get(availableNodes.get(selectedOption).getId());
-
-                isUserChoice = true;
-            }
-
-            if (!isUserChoice)
-                getStringFromConsole("Press ENTER to continue  ...");
-        }
-
-        printLine();
-        printLine(currentNode.getTitle());
+        // TODO: Map validation
+        // TODO: Testing - First part of map contains all cases
+        // TODO(Investigation): do we need to save to file?
 
         printLine("-- GAME END --");
+    }
+
+    private static void newGame(UserSettings userSettings) throws Exception {
+
+        MapNav mapNavigation = new MapNav(userSettings);
+        MapNav.Step currentStep = mapNavigation.getStartingStep();
+
+        do {
+
+            printLine();
+            printLine(currentStep.node.getTitle());
+
+            // By default, assign the first option to be the selected one,
+            // we should only have one or more options as it is the main condition in the loop
+            Node selectedOption = currentStep.options.get(0);
+
+            if (currentStep.options.size() == 1) {
+                getStringFromConsole("Press ENTER to continue  ...");
+            } else {
+                for (int i = 0; i < currentStep.options.size(); i++) {
+                    printLine("[" + (i + 1) + "] " + currentStep.options.get(i).getTitle());
+                }
+                selectedOption = currentStep.options.get(getIntFromConsole() - 1);
+            }
+
+            mapNavigation.saveOptionInput(selectedOption);
+
+            currentStep = mapNavigation.selectNextStep(currentStep.options.size() > 1);
+
+        } while (currentStep.options.size() > 0);
     }
 }

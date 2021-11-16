@@ -22,6 +22,8 @@ public class Option {
 
     public void setChance(int chance) {this.chance = chance;}
 
+    public boolean isChanceOption() {return chance > 0;}
+
 
     @SerializedName(value = "requirements")
     private List<Requirement> requirements = new ArrayList<>();
@@ -35,6 +37,8 @@ public class Option {
 
     public Option() {}
 
+    public Option(String nodeId) {this.setNodeId(nodeId);}
+
     public Option(String nodeId, int chance) {
         this.setNodeId(nodeId);
         this.setChance(chance);
@@ -44,5 +48,19 @@ public class Option {
         this.setNodeId(nodeId);
         this.setChance(chance);
         this.setRequirements(requirements);
+    }
+
+    public boolean requirementsAreMet(UserSettings userSettings) {
+
+        for (Requirement requirement : this.getRequirements()) {
+            if (userSettings.getSavedItems().contains(requirement.getName())) {
+                if (!requirement.mustExist())
+                    return false;  // User has the item, but the requirement is to NOT have the item
+            } else {
+                if (requirement.mustExist())
+                    return false;  // User does not have the item, but the requirement is to have the item
+            }
+        }
+        return true;
     }
 }
