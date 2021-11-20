@@ -1,5 +1,7 @@
 package com.up2037954.triptomars.Models;
 
+import android.text.TextUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,15 +14,28 @@ public class UserSettings {
     public void setName(String name) {this.name = name;}
 
 
-    private List<String> savedItems = new ArrayList<>();
+    private final List<String> savedItems = new ArrayList<>();
 
     public List<String> getSavedItems() {return savedItems;}
 
-    public boolean hasSavedItem(String item) {return savedItems.contains(item);}
+    /**
+     * Adds an item to the user profile - If it is already exist, it will remove it instead.
+     */
+    public void tryAddItem(String item) {
 
-    public void setSavedItems(List<String> savedItems) {this.savedItems = savedItems;}
+        if (TextUtils.isEmpty(item))
+            return;
 
-    public void addSavedItem(String item) {this.savedItems.add(item);}
+        if (this.savedItems.contains(item))
+            this.savedItems.remove(item);
+        else
+            this.savedItems.add(item);
 
-    public void removeSavedItem(String item) {this.savedItems.remove(item);}
+        // TODO: Save to file
+    }
+
+
+    public UserSettings() {
+        // TODO: Get saved settings from filesystem
+    }
 }

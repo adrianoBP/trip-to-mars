@@ -5,7 +5,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -13,22 +12,21 @@ import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
 import com.up2037954.triptomars.Helpers.AndroidHelper;
 import com.up2037954.triptomars.Helpers.AppSettings;
-import com.up2037954.triptomars.Helpers.FSHelper;
-import com.up2037954.triptomars.Helpers.LogicHelper;
 import com.up2037954.triptomars.Helpers.MapHelper;
-import com.up2037954.triptomars.Models.Android.NodeScreenContent;
-import com.up2037954.triptomars.Models.Node;
+import com.up2037954.triptomars.Helpers.MapNav;
+import com.up2037954.triptomars.Models.NodeData.Node;
 import com.up2037954.triptomars.Models.UserSettings;
+import com.up2037954.triptomars.Models.Utils.Step;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-
 public class MainActivity extends AppCompatActivity {
 
     private List<Button> displayedButtons;
+    private MapNav mapNavigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,22 +44,22 @@ public class MainActivity extends AppCompatActivity {
 
         displayedButtons = Collections.singletonList((Button) findViewById(R.id.testButton));
 
-        UserSettings userSettings = new UserSettings();  // TODO: Load if exist
+        UserSettings userSettings = new UserSettings();
 
-        FSHelper fsHelper = MapHelper.buildMap(this);
-        MapHelper.MapData mapData = MapHelper.validateMap(userSettings, fsHelper);
+        MapHelper.buildMap(this);
 
-        Node startingNode = mapData.getStartingNode();
-
-        drawScreen(getNodeScreenContent(startingNode, false, userSettings, mapData));
+        mapNavigation = new MapNav(userSettings, this);
+        Step currentStep = mapNavigation.getStartingStep();
+        drawStep(currentStep);
     }
 
-    private void drawScreen(NodeScreenContent screen) {
-        ((TextView) findViewById(R.id.mainText)).setText(screen.getNode().getTitle());
-        addButtons(screen.getButtons());
+    private void drawStep(Step step) throws Exception {
+        ((TextView) findViewById(R.id.mainText)).setText(step.getNode().getTitle());
+        addButtons(getOptions(step));
     }
 
-    public void addButtons(List<MaterialButton> buttons) {
+
+    private void addButtons(List<MaterialButton> buttons) {
 
         ConstraintLayout mainLayout = (ConstraintLayout) findViewById(R.id.mainLayout);
 
@@ -104,50 +102,26 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public NodeScreenContent getNodeScreenContent(Node currentNode, boolean skipOptionScreen, UserSettings userSettings, MapHelper.MapData mapData) throws Exception {
+    private List<MaterialButton> getOptions(Step currentStep) throws Exception {
 
-        if (!TextUtils.isEmpty((currentNode.getItemToSave())))
-            LogicHelper.SaveResult(currentNode.getItemToSave(), userSettings);
+        List<MaterialButton> buttonOptions = new ArrayList<>();
 
-        List<Node> availableOptions = LogicHelper.getNextNodes(mapData.getMapNodes(), currentNode, userSettings);
-        if (skipOptionScreen && availableOptions.size() == 1) {
-            currentNode = availableOptions.get(0);
-            availableOptions = LogicHelper.getNextNodes(mapData.getMapNodes(), currentNode, userSettings);
-        }
-
-        NodeScreenContent screenDetails = new NodeScreenContent(currentNode);
-
-        // If there's only one available option, add a "NEXT" button to allow the user to read the content
-        if (availableOptions.size() == 1) {
-
-            MaterialButton optionButton = AndroidHelper.createButton("next", this);
-            Node nextNode = availableOptions.get(0);  // The node to show once the "NEXT" button is clicked should be the only available option
+        for (Node node : currentStep.getUserOptions()) {
+            MaterialButton optionButton = AndroidHelper.createButton(node.getTitle(), this);
 
             optionButton.setOnClickListener(view -> {
                 try {
-                    drawScreen(getNodeScreenContent(nextNode, false, userSettings, mapData));
+                    mapNavigation.saveUserOption(node);
+                    Step nextStep = mapNavigation.selectNextStep(currentStep.getUserOptions().size() > 1);
+                    drawStep(nextStep);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             });
 
-            screenDetails.addButton(optionButton);
-            return screenDetails;
+            buttonOptions.add(optionButton);
         }
 
-        // Create new buttons and add its relative event
-        for (Node nodeOption : availableOptions) {
-            MaterialButton optionButton = AndroidHelper.createButton(nodeOption.getTitle(), this);
-            optionButton.setOnClickListener(view -> {
-                try {
-                    drawScreen(getNodeScreenContent(nodeOption, true, userSettings, mapData));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
-            screenDetails.addButton(optionButton);
-        }
-
-        return screenDetails;
+        return buttonOptions;
     }
 }

@@ -1,5 +1,4 @@
 package com.up2037954.triptomars.Helpers;
-
 import android.content.Context;
 import android.content.res.Resources;
 

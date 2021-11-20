@@ -1,4 +1,4 @@
-package com.up2037954.triptomars.Models;
+package com.up2037954.triptomars.Models.NodeData;
 
 import com.google.gson.annotations.SerializedName;
 

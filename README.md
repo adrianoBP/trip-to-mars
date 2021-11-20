@@ -38,7 +38,7 @@ filesystem.path.users=user-data.json
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | *node-id* | `UUID` | Identifiers the id of the option node |
-| *chance* | `Integer` | Percentage out of 100 indicating the chance of this option being selected |
+| *chance* | `Integer` | Percentage out of 100 indicating the chance of this option being selected ([see logic](#logic)) |
 | *requirements* | <code>List<[Requirement](#requirement-class)></code>  | List of requirements for the option to be available |
 
 #### Requirement class
