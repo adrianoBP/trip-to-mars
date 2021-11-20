@@ -1,9 +1,10 @@
-package Models;
+package Models.NodeData;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Node {
 
@@ -60,17 +61,20 @@ public class Node {
     public Node() {}
 
     public Node(String title, String description) {
+        this.setId(UUID.randomUUID().toString());
         this.setTitle(title);
         this.setDescription(description);
     }
 
     public Node(String title, String description, String itemToSave) {
+        this.setId(UUID.randomUUID().toString());
         this.setTitle(title);
         this.setDescription(description);
         this.setItemToSave(itemToSave);
     }
 
     public Node(String title, String description, String itemToSave, boolean isBeginning) {
+        this.setId(UUID.randomUUID().toString());
         this.setTitle(title);
         this.setDescription(description);
         this.setItemToSave(itemToSave);
@@ -78,6 +82,7 @@ public class Node {
     }
 
     public Node(String title, Option option) {
+        this.setId(UUID.randomUUID().toString());
         this.setTitle(title);
         this.options = List.of(option);
     }

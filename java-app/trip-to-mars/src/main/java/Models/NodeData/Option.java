@@ -1,5 +1,6 @@
-package Models;
+package Models.NodeData;
 
+import Models.UserSettings;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;

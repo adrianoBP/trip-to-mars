@@ -14,21 +14,25 @@ public class UserSettings {
     public void setName(String name) {this.name = name;}
 
 
-    private List<String> savedItems = new ArrayList<>();
+    private final List<String> savedItems = new ArrayList<>();
 
     public List<String> getSavedItems() {return savedItems;}
 
-    public boolean hasSavedItem(String item) {return savedItems.contains(item);}
+    /**
+    * Adds an item to the user profile - If it is already exist, it will remove it instead.
+    */
+    public void tryAddItem(String item) {
 
-    public void setSavedItems(List<String> savedItems) {this.savedItems = savedItems;}
+        if (StringUtils.isEmpty(item))
+            return;
 
-    public void addSavedItem(String item) {
-        if (!StringUtils.isEmpty(item))
+        if (this.savedItems.contains(item))
+            this.savedItems.remove(item);
+        else
             this.savedItems.add(item);
+
         // TODO: Save to file
     }
-
-    public void removeSavedItem(String item) {this.savedItems.remove(item);}
 
 
     public UserSettings() {

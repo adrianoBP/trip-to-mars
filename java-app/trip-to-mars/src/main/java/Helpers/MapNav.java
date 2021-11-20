@@ -1,10 +1,16 @@
 package Helpers;
 
 import Models.*;
+import Models.NodeData.Node;
+import Models.NodeData.Option;
+import Models.Utils.MapValidationData;
+import Models.Utils.NodeCollection;
+import Models.Utils.Step;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class MapNav {
 
@@ -12,9 +18,35 @@ public class MapNav {
     private final UserSettings userSettings;
     private Node currentNode;
 
+
     public MapNav(UserSettings userSettings) throws Exception {
         nodeCollection = new NodeCollection();
         this.userSettings = userSettings;
+
+        // If there are any errors, through them, but keep the result in case we want to display it
+        processValidationResult(MapHelper.validateMap(nodeCollection));
+    }
+
+    private void processValidationResult(MapValidationData mapValidationResult) throws Exception {
+
+        // Make sure that there are endings
+        if (mapValidationResult.getEndings().size() == 0)
+            throw new Exception("No endings found");
+
+        // Make sure that all the nodes are used
+        if (mapValidationResult.getExploredNodes().size() < nodeCollection.toList().size()) {
+
+            List<String> collectionNodeIds = nodeCollection.toList()
+                    .stream()
+                    .map(Node::getId)
+                    .collect(Collectors.toList());
+
+            List<String> noteExploredNodes = collectionNodeIds.stream()
+                    .filter(aObject -> !mapValidationResult.getExploredNodes().contains(aObject))
+                    .collect(Collectors.toList());
+
+            throw new Exception("One or more nodes are not used: " + String.join(", ", noteExploredNodes));
+        }
     }
 
     public Step getStartingStep() {
@@ -29,7 +61,7 @@ public class MapNav {
             this.currentNode = nodeCollection.getNodeById(currentNode.getOptions().get(0).getNodeId());
 
         List<Node> availableNodes = getAvailableNodeOptions();
-        userSettings.addSavedItem(currentNode.getItemToSave()); // Save node items
+        userSettings.tryAddItem(currentNode.getItemToSave()); // Save node items
 
         if (availableNodes.size() == 0) {  // End reached
             return new Step(currentNode);
@@ -41,17 +73,16 @@ public class MapNav {
         }
     }
 
-    public void saveOptionInput(Node selectionOption) {
+    public void saveUserOption(Node selectionOption) {
 
-        // Check if the node is a 'next' node - If so, we want to use the 'next' node option directly
-        if (selectionOption.getId() == null) {
+        // Check if the node is a 'next' node - If so, we want to use its user option directly
+        if (selectionOption.getTitle().equalsIgnoreCase("next")) {
             this.currentNode = nodeCollection.getNodeById(selectionOption.getOptions().get(0).getNodeId());
         } else {
             this.currentNode = selectionOption;
         }
-        userSettings.addSavedItem(currentNode.getItemToSave()); // Save node items
+        userSettings.tryAddItem(currentNode.getItemToSave()); // Save node items
     }
-
 
 
     public List<Node> getAvailableNodeOptions() throws Exception {

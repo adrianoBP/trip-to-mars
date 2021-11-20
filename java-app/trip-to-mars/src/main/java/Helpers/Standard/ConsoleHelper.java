@@ -1,8 +1,8 @@
-package Helpers;
+package Helpers.Standard;
 
 import java.util.Scanner;
 
-public class IOUtilities {
+public class ConsoleHelper {
 
     public static void print(Object message) {
         System.out.print(message.toString().trim() + " ");  // Add space at end for formatting

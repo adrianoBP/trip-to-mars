@@ -1,4 +1,4 @@
-package Models;
+package Models.NodeData;
 
 import com.google.gson.annotations.SerializedName;
 

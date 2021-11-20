@@ -1,9 +1,9 @@
 import Helpers.*;
-import Models.Node;
-import Models.Step;
+import Models.NodeData.Node;
+import Models.Utils.Step;
 import Models.UserSettings;
 
-import static Helpers.IOUtilities.*;
+import static Helpers.Standard.ConsoleHelper.*;
 
 public class Main {
 
@@ -19,9 +19,6 @@ public class Main {
 
         newGame(userSettings);
 
-        // TODO: Map validation
-        // TODO: Add map build
-        // TODO: Remove FSHelper
         // TODO: Testing - First part of map contains all cases
         // TODO(Investigation): do we need to save to file?
 
@@ -34,28 +31,27 @@ public class Main {
         Step currentStep = mapNavigation.getStartingStep();
 
         do {
-
             printLine();
             printLine(currentStep.getNode().getTitle());
 
             // By default, assign the first option to be the selected one,
             // we should only have one or more options as it is the main condition in the loop
-            Node selectedOption = currentStep.getOptions().get(0);
+            Node selectedOption = currentStep.getUserOptions().get(0);
 
-            if (currentStep.getOptions().size() == 1) {
+            if (currentStep.getUserOptions().size() == 1) {
                 getStringFromConsole("Press ENTER to continue  ...");
             } else {
-                for (int i = 0; i < currentStep.getOptions().size(); i++) {
-                    printLine("[" + (i + 1) + "] " + currentStep.getOptions().get(i).getTitle());
+                for (int i = 0; i < currentStep.getUserOptions().size(); i++) {
+                    printLine("[" + (i + 1) + "] " + currentStep.getUserOptions().get(i).getTitle());
                 }
-                selectedOption = currentStep.getOptions().get(getIntFromConsole() - 1);
+                selectedOption = currentStep.getUserOptions().get(getIntFromConsole() - 1);
             }
 
-            mapNavigation.saveOptionInput(selectedOption);
+            mapNavigation.saveUserOption(selectedOption);
 
-            currentStep = mapNavigation.selectNextStep(currentStep.getOptions().size() > 1);
+            currentStep = mapNavigation.selectNextStep(currentStep.getUserOptions().size() > 1);
 
-        } while (currentStep.getOptions().size() > 0);
+        } while (currentStep.getUserOptions().size() > 0);
 
         // Show last step
         printLine();
