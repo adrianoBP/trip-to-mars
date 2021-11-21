@@ -59,7 +59,7 @@ public class MapNav {
         return new Step(currentNode, Objects.requireNonNull(currentNode).getOptions().get(0).getNodeId());
     }
 
-    public Step selectNextStep(boolean isUserOption) throws Exception {
+    public Step selectNextStep(boolean isUserOption) {
 
         // If is a user option, we want to skip to the next node as we don't want to show the option itself
         if (isUserOption)
@@ -90,7 +90,7 @@ public class MapNav {
     }
 
 
-    public List<Node> getAvailableNodeOptions() throws Exception {
+    public List<Node> getAvailableNodeOptions() {
 
         if (currentNode.getOptions().size() == 0)  // Ending reached
             return new ArrayList<>();
@@ -115,7 +115,7 @@ public class MapNav {
         }
     }
 
-    private Option pickOptionByProbability(Node node) throws Exception {
+    private Option pickOptionByProbability(Node node)  {
 
         int random = (int) (Math.random() * 100);
 
@@ -126,6 +126,6 @@ public class MapNav {
             random -= option.getChance();
         }
 
-        throw new Exception("PickOptionByProbability: Unable to pick an option");
+        return null;
     }
 }

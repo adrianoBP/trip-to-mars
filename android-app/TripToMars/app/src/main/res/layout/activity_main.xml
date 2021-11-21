@@ -8,17 +8,21 @@
         android:id="@+id/mainLayout">
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hello World!"
+            android:layout_width="370dp"
+            android:layout_height="90dp"
+            android:text="Demo run of the trip-to-mars application"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="68dp"
-            android:id="@+id/mainText" />
+            android:id="@+id/mainText"
+            android:textSize="20sp"
+            android:fontFamily="monospace"
+            app:layout_constraintHorizontal_bias="0.487"
+            android:gravity="center" />
 
     <Button
-            android:text="Test"
+            android:text="Start Test"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/testButton"
