@@ -7,19 +7,42 @@
         tools:context=".MainActivity"
         android:id="@+id/mainLayout">
 
-    <TextView
-            android:layout_width="370dp"
-            android:layout_height="90dp"
-            android:text="Demo run of the trip-to-mars application"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="68dp"
-            android:id="@+id/mainText"
-            android:textSize="20sp"
-            android:fontFamily="monospace"
-            app:layout_constraintHorizontal_bias="0.487"
-            android:gravity="center" />
+            android:id="@+id/constraintLayout"
+            android:background="#2A3365">
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Demo run of the trip-to-mars application"
+                android:id="@+id/mainText"
+                android:textSize="20sp"
+                android:fontFamily="monospace"
+                android:gravity="center"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:textColor="#C8C8C8"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="0dp"
+            android:layout_height="250dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/animation"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+            app:layout_constraintHorizontal_bias="1.0" />
 
     <Button
             android:text="Start Test"
@@ -32,5 +55,17 @@
             android:layout_marginBottom="32dp"
             android:onClick="startApp"
             app:layout_constraintHorizontal_bias="0.498" />
+
+    <com.up2037954.triptomars.Helpers.TypeWriter
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/descriptionText"
+            app:layout_constraintTop_toBottomOf="@+id/animation"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:textSize="16sp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

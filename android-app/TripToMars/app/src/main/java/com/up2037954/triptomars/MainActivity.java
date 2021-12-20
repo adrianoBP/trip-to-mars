@@ -10,11 +10,14 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.button.MaterialButton;
 import com.up2037954.triptomars.Helpers.AndroidHelper;
 import com.up2037954.triptomars.Helpers.AppSettings;
 import com.up2037954.triptomars.Helpers.MapHelper;
 import com.up2037954.triptomars.Helpers.MapNav;
+import com.up2037954.triptomars.Helpers.TypeWriter;
+import com.up2037954.triptomars.Models.NodeData.Node;
 import com.up2037954.triptomars.Models.UserSettings;
 import com.up2037954.triptomars.Models.Utils.Step;
 
@@ -26,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     private MapNav mapNavigation;
     private Vibrator vibratorService;
+    private LottieAnimationView animationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             vibratorService = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+
+            animationView = findViewById(R.id.animation);
+
             AppSettings.init(this);
         } catch (IOException e) {
             e.printStackTrace();
@@ -61,11 +68,23 @@ public class MainActivity extends AppCompatActivity {
 
     private void drawStep(Step step) {
 
+        Node currentNode = step.getNode();
+
         // Update title
-        ((TextView) findViewById(R.id.mainText)).setText(step.getNode().getTitle());
+        ((TextView) findViewById(R.id.mainText)).setText(currentNode.getTitle());
+
+        // Update description
+        ((TypeWriter) findViewById(R.id.descriptionText)).animateText(currentNode.getDescription());
 
         // Add button options
         AndroidHelper.createButtons(getOptions(step), (ConstraintLayout) findViewById(R.id.mainLayout), this);
+
+        // Update animation
+        if (currentNode.hasAnimation()) {
+            int id = getResources().getIdentifier(currentNode.getAnimation(), "raw", getPackageName());
+            animationView.setAnimation(id);
+            animationView.playAnimation();
+        }
     }
 
     private List<MaterialButton> getOptions(Step currentStep) {

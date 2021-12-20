@@ -1,5 +1,7 @@
 package com.up2037954.triptomars.Models.NodeData;
 
+import android.text.TextUtils;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -58,6 +60,15 @@ public class Node {
 
     public void addOption(Option option) {this.options.add(option);}
 
+    @SerializedName(value = "animation")
+    private String animation = "";
+
+    public String getAnimation() {return animation;}
+
+    public void setAnimation(String animation) {this.animation = animation;}
+
+    public boolean hasAnimation() {return !TextUtils.isEmpty(getAnimation());}
+
 
     public Node() {}
 
@@ -72,6 +83,14 @@ public class Node {
         this.setTitle(title);
         this.setDescription(description);
         this.setItemToSave(itemToSave);
+    }
+
+    public Node(String title, String description, String itemToSave, String animation) {
+        this.setId(UUID.randomUUID().toString());
+        this.setTitle(title);
+        this.setDescription(description);
+        this.setItemToSave(itemToSave);
+        this.setAnimation(animation);
     }
 
     public Node(String title, String description, String itemToSave, boolean isBeginning) {

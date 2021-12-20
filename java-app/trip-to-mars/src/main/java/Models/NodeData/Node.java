@@ -1,6 +1,7 @@
 package Models.NodeData;
 
 import com.google.gson.annotations.SerializedName;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +59,14 @@ public class Node {
     public void addOption(Option option) {this.options.add(option);}
 
 
-    public Node() {}
+    public Node() {
+        this.setId(UUID.randomUUID().toString());
+    }
+
+    public Node(String title) {
+        this.setId(UUID.randomUUID().toString());
+        this.setTitle(title);
+    }
 
     public Node(String title, String description) {
         this.setId(UUID.randomUUID().toString());
@@ -85,5 +93,14 @@ public class Node {
         this.setId(UUID.randomUUID().toString());
         this.setTitle(title);
         this.options = List.of(option);
+    }
+
+    @Override
+    public String toString() {
+        return "[" + this.getId() + "] " +
+                this.getTitle() + " - " +
+                (StringUtils.isEmpty(this.getDescription()) ? "" : this.getDescription() + " - ") +
+                "Is Beginning: " + this.isBeginning +
+                " (" + this.getOptions().size() + " available options)";
     }
 }

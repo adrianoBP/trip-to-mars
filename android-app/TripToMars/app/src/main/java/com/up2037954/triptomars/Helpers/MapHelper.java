@@ -33,14 +33,14 @@ public class MapHelper {
         // tX -> Testing
 
         String s0 = nodeCollection.insertNode(new Node("Start", "", "", true));
-        String s1 = nodeCollection.insertNode(new Node("Select an item", ""));
+        String s1 = nodeCollection.insertNode(new Node("Select an item", "As you embark for a new adventure, you wonder if you should bring with you an item. What should you bring?"));
         String u1 = nodeCollection.insertNode(new Node("Kid's toy", "", "KID_TOY"));
         String u2 = nodeCollection.insertNode(new Node("Pen", "", "PEN"));
         String u3 = nodeCollection.insertNode(new Node("Nothing", ""));
-        String s2 = nodeCollection.insertNode(new Node("Take off", ""));
-        String s3 = nodeCollection.insertNode(new Node("Incident in orbit", ""));
+        String s2 = nodeCollection.insertNode(new Node("Take off", "", "", "idle_astronaut_1"));
+        String s3 = nodeCollection.insertNode(new Node("Incident in orbit", "", "", "warning"));
         String c1 = nodeCollection.insertNode(new Node("Non critical", ""));
-        String c2 = nodeCollection.insertNode(new Node("Critical", ""));
+        String c2 = nodeCollection.insertNode(new Node("Critical", "", ""));
         String u4 = nodeCollection.insertNode(new Node("Investigate and fix", ""));
         String u5 = nodeCollection.insertNode(new Node("Ignore the issue", ""));
         String c3 = nodeCollection.insertNode(new Node("All good", ""));
