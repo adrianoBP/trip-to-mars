@@ -37,27 +37,40 @@ public class MapHelper {
         String u1 = nodeCollection.insertNode(new Node("Kid's toy", "", "KID_TOY"));
         String u2 = nodeCollection.insertNode(new Node("Pen", "", "PEN"));
         String u3 = nodeCollection.insertNode(new Node("Nothing", ""));
-        String s2 = nodeCollection.insertNode(new Node("Take off", "", "", "idle_astronaut_1"));
-        String s3 = nodeCollection.insertNode(new Node("Incident in orbit", "", "", "warning"));
-        String c1 = nodeCollection.insertNode(new Node("Non critical", ""));
-        String c2 = nodeCollection.insertNode(new Node("Critical", "", ""));
+        String s2 = nodeCollection.insertNode(new Node("Take off", "And it's take off! You just started your new adventure", "", "idle_astronaut_1"));
+        String s3 = nodeCollection.insertNode(new Node("Incident in orbit", "Something is not quite right - The ship trembles a bit more than expected", "", "warning"));
+        String c1 = nodeCollection.insertNode(new Node("Non critical", "Seems like the issue is not critical to the life of the ship - But you are still a bit worried: these are complex systems and you should be extra safe"));
+        String c2 = nodeCollection.insertNode(new Node("Critical", "There's a critical issue somewhere on the ship! Red lights and loud sounds are all over the ship!", ""));
         String u4 = nodeCollection.insertNode(new Node("Investigate and fix", ""));
         String u5 = nodeCollection.insertNode(new Node("Ignore the issue", ""));
-        String c3 = nodeCollection.insertNode(new Node("All good", ""));
-        String s4 = nodeCollection.insertNode(new Node("Ventilation system issue", "According to the system, you should be able to change route and turn back"));
+        String c3 = nodeCollection.insertNode(new Node("All good!", "The ship is back on its trajectory and you start seeing the starts moving by from your window", ""));
+        String s4 = nodeCollection.insertNode(new Node("Ventilation system issue", "The systems indicate that there's an issue with the ventilation system, however, you may have enough oxygen to just turn back"));
         String u6 = nodeCollection.insertNode(new Node("Turn back", ""));
         String u7 = nodeCollection.insertNode(new Node("Try to fix the issue", ""));
-        String s5 = nodeCollection.insertNode(new Node("Is it enough?", "According to your team's calculations, there isn't enough oxygen for the trip back"));
+        String s5 = nodeCollection.insertNode(new Node("Is it enough?", "The system sensors are sure are positive that you will make it home safely, however, according to your team's calculations, the oxygen won't be enough for all of you..."));
         String u8 = nodeCollection.insertNode(new Node("Trust the system", ""));
         String u9 = nodeCollection.insertNode(new Node("Sacrifice yourself", ""));
-        String e1 = nodeCollection.insertNode(new Node("You live", "You and your team get home safely"));
-        String e2 = nodeCollection.insertNode(new Node("You die", "You decide to sacrifice yourself and take a pill which kills you. You will never know if your team makes it home"));
-        String s6 = nodeCollection.insertNode(new Node("A hole!", "You discover a hole in a critical section of the spaceship"));
+        String e1 = nodeCollection.insertNode(new Node("You live", "The systems were right! You get back safely into the Earths atmosphere and splash into the ocean! You are home."));
+        String e2 = nodeCollection.insertNode(new Node("You die", "You sacrificed yourself for the team. You will never know if your team makes it home or if they were wrong, but you die peacefully."));
+        String s6 = nodeCollection.insertNode(new Node("A hole!", "A small meteor perforated the structure of the ship and there's an oxygen leak!"));
         String s7 = nodeCollection.insertNode(new Node("The pen", "The pen from your boss is the exact size of the hole and could be a temporary fix"));
         String s8 = nodeCollection.insertNode(new Node("Use the pen", "Stick the pen in the hole until a proper fix is found"));
         String s9 = nodeCollection.insertNode(new Node("Wait for the fix", "You need to wait for your team to come with a proper solution"));
         String e3 = nodeCollection.insertNode(new Node("You die", "It took too long and the hole became too big to be fixed"));
-        String s10 = nodeCollection.insertNode(new Node("Hole patched", "The hole is now patched, but unfortunately the pen is no longer on your possession as during the fixes, it got sucked out of the ship to the vacuum of space", "PEN"));
+        String s10 = nodeCollection.insertNode(new Node("Hole patched", "The hole is now patched, but the pen got sucked out of the ship to the vacuum of space", "PEN"));
+        String s11 = nodeCollection.insertNode(new Node("Land on Mars", "You made it! You finally landed on the red planet.. but now there's a lot of pressure! Who will be the first to put foot on the new planet? Will you push to be the first or will you follow the procedures?"));
+        String u10 = nodeCollection.insertNode(new Node("Push", ""));
+        String u11 = nodeCollection.insertNode(new Node("Follow procedures", ""));
+        String c4 = nodeCollection.insertNode(new Node("You tripped", "In the rush to get out you trip over a step!"));
+        String e4 = nodeCollection.insertNode(new Node("You die", "The pen you had perforated the suit resulting in a catastrophic failure!"));
+        String e5 = nodeCollection.insertNode(new Node("You die", "Your helmet cracks and yuo die from asphyxia!"));
+        String c5 = nodeCollection.insertNode(new Node("You get hurt", "The suit is still all in one place, but you are sore and not really sure why - Should you tell anyone?"));
+        String u12 = nodeCollection.insertNode(new Node("Don't tell anyone", ""));
+        String u13 = nodeCollection.insertNode(new Node("Ask for help", ""));
+        String c6 = nodeCollection.insertNode(new Node("Just a scratch", "You get back on your feet with no issues! That could have ended very bad!"));
+        String c7 = nodeCollection.insertNode(new Node("You walk!", "You got down the ladder and you are now walking on the red planet!"));
+
+
 
 //        String t0 = nodeCollection.insertNode(new Node("TEST", "TEST", "", true));
 
@@ -88,8 +101,8 @@ public class MapHelper {
         nodeCollection.addNodeOptions(s2, options);
 
         options = new ArrayList<>();
-        options.add(new Option(c1, 50));
-        options.add(new Option(c2, 50));
+        options.add(new Option(c1, 99));    // TODO: Change to 50
+        options.add(new Option(c2, 1));    // TODO: Change to 50
         nodeCollection.addNodeOptions(s3, options);
 
         options = new ArrayList<>();
@@ -98,8 +111,8 @@ public class MapHelper {
         nodeCollection.addNodeOptions(c1, options);
 
         options = new ArrayList<>();
-        options.add(new Option(c2, 1));
-        options.add(new Option(c3, 99));
+        options.add(new Option(c2, 1));     // TODO: Check random
+        options.add(new Option(c3, 99));    // TODO: Check random
         nodeCollection.addNodeOptions(u4, options);
 
         options = new ArrayList<>();
@@ -158,6 +171,35 @@ public class MapHelper {
         options = new ArrayList<>();
         options.add(new Option(c3, 0));
         nodeCollection.addNodeOptions(s10, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(s11, 0));
+        nodeCollection.addNodeOptions(c3, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(u10, 0));
+        options.add(new Option(u11, 0));
+        nodeCollection.addNodeOptions(s11, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(c4, 70));
+        options.add(new Option(c7, 30));
+        nodeCollection.addNodeOptions(u10, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(e4, 20, Collections.singletonList(new Requirement("PEN", true))));
+        options.add(new Option(e5, 20, Collections.singletonList(new Requirement("PEN", true))));
+        options.add(new Option(c5, 30, Collections.singletonList(new Requirement("PEN", true))));
+        options.add(new Option(c6, 30, Collections.singletonList(new Requirement("PEN", true))));
+        options.add(new Option(e5, 20, Collections.singletonList(new Requirement("PEN", false))));
+        options.add(new Option(c5, 40, Collections.singletonList(new Requirement("PEN", false))));
+        options.add(new Option(c6, 40, Collections.singletonList(new Requirement("PEN", false))));
+        nodeCollection.addNodeOptions(c4, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(u12, 0));
+        options.add(new Option(u13, 0));
+        nodeCollection.addNodeOptions(c5, options);
 
         nodeCollection.save();
     }
