@@ -59,6 +59,9 @@ public class MapNav {
 
     public Step selectNextStep(Node selectedOption, boolean isUserOption) throws Exception {
 
+        // Save node items
+        userSettings.tryAddItem(selectedOption.getItemToSave());
+
         // When user clicks on 'next', we want to skip that that and go directly to the content
         if (selectedOption.getTitle().equalsIgnoreCase("next"))
             selectedOption = getNodeById(selectedOption.getOptions().get(0).getNodeId());
@@ -71,9 +74,6 @@ public class MapNav {
             else
                 selectedOption = getNodeById(selectedOption.getOptions().get(0).getNodeId());
         }
-
-        // Save node items
-        userSettings.tryAddItem(selectedOption.getItemToSave());
 
         List<Node> newAvailableOptions = getAvailableNodeOptions(selectedOption);
 

@@ -69,6 +69,15 @@ public class Node {
 
     public boolean hasAnimation() {return !TextUtils.isEmpty(getAnimation());}
 
+    @SerializedName(value = "animationDuration")
+    private int animationDuration = 0;
+
+    private int getAnimationDuration() { return animationDuration;}
+
+    private void setAnimationDuration(int animationDuration) {
+        this.animationDuration = animationDuration;
+    }
+
 
     public Node() {}
 
@@ -93,18 +102,26 @@ public class Node {
         this.setAnimation(animation);
     }
 
-    public Node(String title, String description, String itemToSave, boolean isBeginning) {
+    public Node(String title, String description, String itemToSave, String animation, int animationDuration) {
         this.setId(UUID.randomUUID().toString());
         this.setTitle(title);
         this.setDescription(description);
         this.setItemToSave(itemToSave);
+        this.setAnimation(animation);
+        this.setAnimationDuration(animationDuration);
+    }
+
+    public Node(String title, String description, boolean isBeginning) {
+        this.setId(UUID.randomUUID().toString());
+        this.setTitle(title);
+        this.setDescription(description);
         this.setBeginning(isBeginning);
     }
 
     public Node(String title, Option option) {
         this.setId(UUID.randomUUID().toString());
         this.setTitle(title);
-        this.options = Collections.singletonList(option);
+        this.setOptions(Collections.singletonList(option));
     }
 
     public boolean isChanceChoice() {
