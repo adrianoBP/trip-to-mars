@@ -92,14 +92,14 @@ public class MainActivity extends AppCompatActivity {
         List<MaterialButton> buttonOptions = new ArrayList<>();
 
         // Convert options to buttons
-        currentStep.getUserOptions().forEach(node -> {
-            MaterialButton optionButton = AndroidHelper.newButton(node.getTitle(), this);
+        currentStep.getUserOptions().forEach(optionNode -> {
+            MaterialButton optionButton = AndroidHelper.newButton(optionNode.getTitle(), this);
 
             // When this button is clicked, make sure ot run the next action
             optionButton.setOnClickListener(view -> {
                 Step nextStep = null;
                 try {
-                    nextStep = mapNavigation.selectNextStep(node, currentStep.isUserChoice());
+                    nextStep = mapNavigation.selectNextStep(optionNode, currentStep.isUserChoice());
                     drawStep(nextStep);
                 } catch (Exception e) {
                     e.printStackTrace();
