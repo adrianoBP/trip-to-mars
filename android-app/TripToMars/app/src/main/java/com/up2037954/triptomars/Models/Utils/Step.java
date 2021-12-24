@@ -29,4 +29,8 @@ public class Step {
         // If there's only one option, create a dummy 'next' option for the user to navigate
         this.userOptions = Collections.singletonList(new Node("Next", new Option(nextNodeId)));
     }
+
+    public boolean isUserChoice() {
+        return this.userOptions.size() > 1 && !this.node.isChanceChoice();
+    }
 }

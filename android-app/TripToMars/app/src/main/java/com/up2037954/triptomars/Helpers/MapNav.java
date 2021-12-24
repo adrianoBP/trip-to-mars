@@ -20,7 +20,6 @@ public class MapNav {
 
     private final NodeCollection nodeCollection;
     private final UserSettings userSettings;
-    private Node currentNode;
 
 
     public MapNav(UserSettings userSettings, Context context) throws Exception {
@@ -55,59 +54,59 @@ public class MapNav {
     }
 
     public Step getStartingStep() {
-        currentNode = nodeCollection.getStartingNode();
-        return new Step(currentNode, Objects.requireNonNull(currentNode).getOptions().get(0).getNodeId());
+        Node startingNode = nodeCollection.getStartingNode();
+        return new Step(startingNode, Objects.requireNonNull(startingNode).getOptions().get(0).getNodeId());
     }
 
-    public Step selectNextStep(boolean isUserOption) {
+    public Step selectNextStep(Node selectedOption, boolean isUserOption) throws Exception {
 
-        // If is a user option, we want to skip to the next node as we don't want to show the option itself
-        if (isUserOption)
-            this.currentNode = nodeCollection.getNodeById(currentNode.getOptions().get(0).getNodeId());
+        // If the user clicked on a 'next' node, we want to skip it and go directly to the actual content
+        if (selectedOption.getTitle().equalsIgnoreCase("next"))
+            selectedOption = getNodeById(selectedOption.getOptions().get(0).getNodeId());
 
-        List<Node> availableNodes = getAvailableNodeOptions();
-        userSettings.tryAddItem(currentNode.getItemToSave()); // Save node items
-
-        if (availableNodes.size() == 0) {  // End reached
-            return new Step(currentNode);
-        } else if (availableNodes.size() == 1) {  // System or chance based decision
-            return new Step(currentNode, availableNodes.get(0).getId());
-        } else {  // User based decision
-
-            return new Step(currentNode, availableNodes);
+        // We need to skip the selected option as it is not a story node
+        if (isUserOption) {
+            if (selectedOption.isChanceChoice())
+                // If the current option is a chance node, we need to pick a new node
+                selectedOption = getNodeById(pickOptionByProbability(selectedOption).getNodeId());
+            else
+                selectedOption = getNodeById(selectedOption.getOptions().get(0).getNodeId());
         }
-    }
 
-    public void saveUserOption(Node selectionOption) {
+        List<Node> newAvailableOptions = getAvailableNodeOptions(selectedOption);
 
-        // Check if the node is a 'next' node - If so, we want to use its user option directly
-        if (selectionOption.getTitle().equalsIgnoreCase("next")) {
-            this.currentNode = nodeCollection.getNodeById(selectionOption.getOptions().get(0).getNodeId());
+        // Save node items
+        userSettings.tryAddItem(selectedOption.getItemToSave());
+
+        if (newAvailableOptions.size() == 0) {
+            // End reached
+            return new Step(selectedOption);
+        } else if (newAvailableOptions.size() == 1) {
+            // System or chance based decision
+            return new Step(selectedOption, newAvailableOptions.get(0).getId());
         } else {
-            this.currentNode = selectionOption;
+            // User based decision
+            return new Step(selectedOption, newAvailableOptions);
         }
-        userSettings.tryAddItem(currentNode.getItemToSave()); // Save node items
     }
 
+    public List<Node> getAvailableNodeOptions(Node selectedNode) throws Exception {
 
-    public List<Node> getAvailableNodeOptions() {
-
-        if (currentNode.getOptions().size() == 0)  // Ending reached
+        if (selectedNode.getOptions().size() == 0)              // Ending reached
             return new ArrayList<>();
-        else if (currentNode.getOptions().size() == 1) {  // Story line
-            return Collections.singletonList(nodeCollection.getNodeById(currentNode.getOptions().get(0).getNodeId()));
-        } else {  // User or chance decision
+        else if (selectedNode.getOptions().size() == 1) {       // Story line
+            return getNodeAsList(selectedNode.getOptions().get(0).getNodeId());
+        } else {                                                // User or chance decision
 
             List<Node> availableNodes = new ArrayList<>();
 
-            // If is a chance decision, pick a node randomly (according to chance)
-            if (currentNode.getOptions().stream().anyMatch(Option::isChanceOption)) {
-                Option selectedOption = pickOptionByProbability(currentNode);
-                return Collections.singletonList(nodeCollection.getNodeById(selectedOption.getNodeId()));
+            // If is a chance decision, randomly pick a node
+            if (selectedNode.isChanceChoice()) {
+                return getNodeAsList(pickOptionByProbability(selectedNode).getNodeId());
             }
 
-            // Otherwise, return the options that the user can make
-            for (Option option : currentNode.getOptions()) {
+            // Otherwise, return the options that the user can select
+            for (Option option : selectedNode.getOptions()) {
                 if (option.requirementsAreMet(userSettings))
                     availableNodes.add(nodeCollection.getNodeById(option.getNodeId()));
             }
@@ -115,7 +114,7 @@ public class MapNav {
         }
     }
 
-    private Option pickOptionByProbability(Node node)  {
+    private Option pickOptionByProbability(Node node) {
 
         int random = (int) (Math.random() * 100);
 
@@ -126,6 +125,18 @@ public class MapNav {
             random -= option.getChance();
         }
 
-        return null;
+        // If not found, return an option with an empty id
+        return new Option("");
+    }
+
+    private List<Node> getNodeAsList(String nodeId) throws Exception {
+        return Collections.singletonList(getNodeById(nodeId));
+    }
+
+    private Node getNodeById(String nodeId) throws Exception {
+        if (TextUtils.isEmpty(nodeId))
+            throw new Exception("Provided node ID is null or empty!");
+
+        return nodeCollection.getNodeById(nodeId);
     }
 }

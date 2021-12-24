@@ -97,9 +97,14 @@ public class MainActivity extends AppCompatActivity {
 
             // When this button is clicked, make sure ot run the next action
             optionButton.setOnClickListener(view -> {
-                mapNavigation.saveUserOption(node);
-                Step nextStep = mapNavigation.selectNextStep(currentStep.getUserOptions().size() > 1);
-                drawStep(nextStep);
+                Step nextStep = null;
+                try {
+                    nextStep = mapNavigation.selectNextStep(node, currentStep.isUserChoice());
+                    drawStep(nextStep);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             });
 
             buttonOptions.add(optionButton);

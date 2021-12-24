@@ -106,4 +106,8 @@ public class Node {
         this.setTitle(title);
         this.options = Collections.singletonList(option);
     }
+
+    public boolean isChanceChoice() {
+        return this.getOptions().stream().allMatch(Option::isChanceOption);
+    }
 }
