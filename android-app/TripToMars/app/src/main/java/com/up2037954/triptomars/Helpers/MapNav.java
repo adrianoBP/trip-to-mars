@@ -36,14 +36,20 @@ public class MapNav {
         // Make sure that all the nodes are used
         if (mapValidationResult.getExploredNodes().size() < nodeCollection.toList().size()) {
 
-            List<String> collectionNodeIds = nodeCollection.toList()
-                    .stream()
-                    .map(Node::getId)
-                    .collect(Collectors.toList());
+            List<String> notExploredNodes = new ArrayList<>();
+            for (Node node : nodeCollection.toList()) {
+                if(!mapValidationResult.getExploredNodes().contains(node.getId()))
+                    notExploredNodes.add(node.getTitle());
+            }
 
-            List<String> notExploredNodes = collectionNodeIds.stream()
-                    .filter(aObject -> !mapValidationResult.getExploredNodes().contains(aObject))
-                    .collect(Collectors.toList());
+//            List<String> collectionNodeIds = nodeCollection.toList()
+//                    .stream()
+//                    .map(Node::getId)
+//                    .collect(Collectors.toList());
+//
+//            List<String> notExploredNodes = collectionNodeIds.stream()
+//                    .filter(aObject -> !mapValidationResult.getExploredNodes().contains(aObject))
+//                    .collect(Collectors.toList());
 
             throw new Exception("One or more nodes are not used: "
                     + TextUtils.join(", ", notExploredNodes));

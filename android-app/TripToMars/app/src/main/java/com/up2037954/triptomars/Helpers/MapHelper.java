@@ -100,6 +100,19 @@ public class MapHelper {
         String s25 = nodeCollection.insertNode(new Node("Half down", "You tried to fight back, but after just a couple of minutes, half of your team is dead! Should you keep fighting?"));
         String u28 = nodeCollection.insertNode(new Node("Keep fighting", ""));
         String e9 = nodeCollection.insertNode(new Node("You die", "That wasn't the best move.. All your team, including you, die on a pointless fight"));
+        String s26 = nodeCollection.insertNode(new Node("Skepticism", "They spare you, however, they are very very skeptical of you.. "));
+        String s27 = nodeCollection.insertNode(new Node("The toy", "The Toy! You have your Kid's toy that you could offer as a gift! Should you give it to them?"));
+        String u29 = nodeCollection.insertNode(new Node("Gift the toy", ""));
+        String u30 = nodeCollection.insertNode(new Node("Hide it", ""));
+        String s28 = nodeCollection.insertNode(new Node("Accepted", "They accepted the gift! They seem to be a bit more easy going"));
+        String c8 = nodeCollection.insertNode(new Node("It's gone", "They are happy now, but they think that they should keep the gift.. Not much you can do, is it?", "KID_TOY"));
+        String c9 = nodeCollection.insertNode(new Node("Come back", "That was a great test from their end, and you passed it! They also gave the toy back to you!"));
+        String s29 = nodeCollection.insertNode(new Node("Wise team", "The team is speaking up - They quietly suggest you to just turn back and forget everything... Maybe your team member are wiser than you?"));
+        String u31 = nodeCollection.insertNode(new Node("Ignore the team", ""));
+        String c10 = nodeCollection.insertNode(new Node("True followers", "They understand you are the leader and they stick with you!"));
+        String c11 = nodeCollection.insertNode(new Node("Rebellion", "A true leader should listen to the team! They rebel against you!"));
+        String e10 = nodeCollection.insertNode(new Node("You die", "You find yourself alone, with nothing to do or eat"));
+        String s30 = nodeCollection.insertNode(new Node("Explanation", "You explain to them that you were just scared.. They seem to ne understanding and they accept your apology"));
 
 
         //        String t0 = nodeCollection.insertNode(new Node("TEST", "TEST", "", true));
@@ -250,7 +263,7 @@ public class MapHelper {
 
         options = new ArrayList<>();
         options.add(new Option(e6, 0, Collections.singletonList(new Requirement("SHIP", false))));
-        options.add(new Option(s15, 0, Collections.singletonList(new Requirement("SHIP", false))));
+        options.add(new Option(s15, 0, Collections.singletonList(new Requirement("SHIP", true))));
         nodeCollection.addNodeOptions(s14, options);
 
         options = new ArrayList<>();
@@ -354,6 +367,64 @@ public class MapHelper {
         options = new ArrayList<>();
         options.add(new Option(e9, 0));
         nodeCollection.addNodeOptions(u28, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(s26, 0));
+        nodeCollection.addNodeOptions(u26, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(s27, 0, Collections.singletonList(new Requirement("KID_TOY", true))));
+        options.add(new Option(s29, 0, Collections.singletonList(new Requirement("KID_TOY", false))));
+        nodeCollection.addNodeOptions(s26, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(u29, 0));
+        options.add(new Option(u30, 0));
+        nodeCollection.addNodeOptions(s27, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(s28, 0));
+        nodeCollection.addNodeOptions(u29, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(c8, 20));
+        options.add(new Option(c9, 80));
+        nodeCollection.addNodeOptions(s28, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(s23, 0));
+        nodeCollection.addNodeOptions(c8, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(s23, 0));
+        nodeCollection.addNodeOptions(c9, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(s29, 0));
+        nodeCollection.addNodeOptions(u30, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(u23, 0));
+        options.add(new Option(u31, 0));
+        nodeCollection.addNodeOptions(s29, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(c10, 50));
+        options.add(new Option(c11, 50));
+        nodeCollection.addNodeOptions(u31, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(e10, 0));
+        nodeCollection.addNodeOptions(c11, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(s30, 0));
+        nodeCollection.addNodeOptions(c10, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(s23, 0));
+        nodeCollection.addNodeOptions(s30, options);
+
 
         nodeCollection.save();
     }
