@@ -12,6 +12,7 @@ public class AppSettings {
 
     public static String nodesFilePath;
     public static String usersFilePath;
+    public static boolean isLive;
 
     public static void init(Context context) throws IOException {
 
@@ -23,5 +24,6 @@ public class AppSettings {
 
         nodesFilePath = properties.getProperty("filesystem.path.nodes");
         usersFilePath = properties.getProperty("filesystem.path.users");
+        isLive = false;
     }
 }

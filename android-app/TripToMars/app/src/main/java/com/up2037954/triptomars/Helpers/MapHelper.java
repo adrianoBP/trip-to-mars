@@ -18,12 +18,12 @@ import java.util.stream.Collectors;
 
 public class MapHelper {
 
-    public static void buildMap(Context context) throws Exception {
+    public static NodeCollection buildMap(Context context) throws Exception {
 
         NodeCollection nodeCollection = new NodeCollection(context);
 
         if (nodeCollection.getStartingNode() != null)
-            return;
+            return nodeCollection;
 
         // s0 -> start
         // sX -> system choice
@@ -113,7 +113,17 @@ public class MapHelper {
         String c11 = nodeCollection.insertNode(new Node("Rebellion", "A true leader should listen to the team! They rebel against you!"));
         String e10 = nodeCollection.insertNode(new Node("You die", "You find yourself alone, with nothing to do or eat"));
         String s30 = nodeCollection.insertNode(new Node("Explanation", "You explain to them that you were just scared.. They seem to ne understanding and they accept your apology"));
-
+        String s31 = nodeCollection.insertNode(new Node("The toy", "In between procedures, you got some spare time and you pick up the toy when you notice that it has a message in it!"));
+        String u32 = nodeCollection.insertNode(new Node("Leave it", ""));
+        String u33 = nodeCollection.insertNode(new Node("Read it", ""));
+        String s32 = nodeCollection.insertNode(new Node("Hidden message", "It is a message from your kid! You kid misses you... and a joyful tear travels its way on you cheek. You start wondering if you should stay in the ship instead of going out.. after all it is the safest option, isn't it"));
+        String u34 = nodeCollection.insertNode(new Node("Stay in te ship", ""));
+        String u35 = nodeCollection.insertNode(new Node("Get ready to go", ""));
+        String c12 = nodeCollection.insertNode(new Node("Call home", "You convince your Earth supervisor to let you call your kid home - Strangely, the let you! But of course it will take quite some time to connect"));
+        String c13 = nodeCollection.insertNode(new Node("Fellow spaceman", "One of your team members sees you there, by yourself and approaches you - You definitely would prefer to stay alone and don't talk to anyone, but is that this situation? Or maybe you should get ready to go?"));
+        String u36 = nodeCollection.insertNode(new Node("Talk about the kid", ""));
+        String s33 = nodeCollection.insertNode(new Node("Nice bloke", "After quite some time, your team member explains that you are there to make your kid proud and convinces you to get out and explore - This is how you get trust from your team!", "TEAM_TRUST"));
+        String s34 = nodeCollection.insertNode(new Node("Suit up", "It's time to go! You suit up and get ready to exit the spaceship - Your food is about to touch the Red Planet!"));
 
         //        String t0 = nodeCollection.insertNode(new Node("TEST", "TEST", "", true));
 
@@ -425,8 +435,50 @@ public class MapHelper {
         options.add(new Option(s23, 0));
         nodeCollection.addNodeOptions(s30, options);
 
+        options = new ArrayList<>();
+        options.add(new Option(s31, 0, Collections.singletonList(new Requirement("KID_TOY", true))));
+        options.add(new Option(s34, 0, Collections.singletonList(new Requirement("KID_TOY", false))));
+        nodeCollection.addNodeOptions(u11, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(u32, 0));
+        options.add(new Option(u33, 0));
+        nodeCollection.addNodeOptions(s31, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(s12, 0));
+        nodeCollection.addNodeOptions(u32, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(s32, 0));
+        nodeCollection.addNodeOptions(u33, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(u34, 0));
+        options.add(new Option(u35, 0));
+        nodeCollection.addNodeOptions(s32, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(c12, 50));
+        options.add(new Option(c13, 50));
+        nodeCollection.addNodeOptions(u34, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(u35, 0));
+        options.add(new Option(u36, 0));
+        nodeCollection.addNodeOptions(c13, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(s33, 0));
+        nodeCollection.addNodeOptions(u36, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(s34, 0));
+        nodeCollection.addNodeOptions(s33, options);
 
         nodeCollection.save();
+
+        return nodeCollection;
     }
 
     public static MapValidationData validateMap(NodeCollection nodeCollection) throws Exception {

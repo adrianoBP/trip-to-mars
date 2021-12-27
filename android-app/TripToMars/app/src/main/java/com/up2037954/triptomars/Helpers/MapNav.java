@@ -19,9 +19,9 @@ public class MapNav {
     private final UserSettings userSettings;
 
 
-    public MapNav(UserSettings userSettings, Context context) throws Exception {
+    public MapNav(UserSettings userSettings, NodeCollection nodeCollection, Context context) throws Exception {
 
-        nodeCollection = new NodeCollection(context);
+        this.nodeCollection = nodeCollection;
         this.userSettings = userSettings;
 
         processValidationResult(MapHelper.validateMap(nodeCollection));

@@ -19,6 +19,7 @@ import com.up2037954.triptomars.Helpers.MapNav;
 import com.up2037954.triptomars.Helpers.TypeWriter;
 import com.up2037954.triptomars.Models.NodeData.Node;
 import com.up2037954.triptomars.Models.UserSettings;
+import com.up2037954.triptomars.Models.Utils.NodeCollection;
 import com.up2037954.triptomars.Models.Utils.Step;
 
 import java.io.IOException;
@@ -54,8 +55,8 @@ public class MainActivity extends AppCompatActivity {
 
         try {
 
-            MapHelper.buildMap(this);
-            mapNavigation = new MapNav(userSettings, this);
+            NodeCollection nodeCollection = MapHelper.buildMap(this);
+            mapNavigation = new MapNav(userSettings, nodeCollection, this);
 
             Step currentStep = mapNavigation.getStartingStep();
             drawStep(currentStep);

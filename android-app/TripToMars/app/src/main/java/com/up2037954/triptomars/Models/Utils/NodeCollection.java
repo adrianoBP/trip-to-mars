@@ -50,7 +50,9 @@ public class NodeCollection {
 
         this.context = context;
 
-        String nodesFileContent = FileHelper.getOrCreate(AppSettings.nodesFilePath, "[]", this.context);
+        String nodesFileContent = AppSettings.isLive ?
+                FileHelper.getOrCreate(AppSettings.nodesFilePath, "[]", this.context) :
+                "[]";
 
         // We need to define the type first due to Gson not recognising List<>, and we are storing a list of objects
         Type listType = new TypeToken<ArrayList<Node>>() {}.getType();
