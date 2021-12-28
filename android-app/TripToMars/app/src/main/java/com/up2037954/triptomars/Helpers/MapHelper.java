@@ -152,6 +152,36 @@ public class MapHelper {
         String s41 = nodeCollection.insertNode(new Node("New item", "It does look super hot, but to the touch it actually very cold! It surely must have some useful properties!", "METEOR"));
         String s42 = nodeCollection.insertNode(new Node("Closing by", "The meteor shower starts closing by - You wisely decide to return to the ship"));
         String s43 = nodeCollection.insertNode(new Node("Back to the ship", "You are now back in the ship with your team and wait for the storm to finish and move away.. It is still a nice and cozy place after all!"));
+        String s44 = nodeCollection.insertNode(new Node("Safe outside", "The dangerous storm seems to have passed by - You can safely get out and start exploring the planet.. or should you start searching for resources to go back to home?"));
+        String u46 = nodeCollection.insertNode(new Node("Explore", ""));
+        String u47 = nodeCollection.insertNode(new Node("Get for resources", ""));
+        String s45 = nodeCollection.insertNode(new Node("HQ is back", "After a long silence from headquarters due to the storm, they finally reached you and mentioned that there's a Rover not far from your position and may be a nice sight - Should you search for the Rover? Or maybe you shouldn't risk to compromise its mission?"));
+        String u48 = nodeCollection.insertNode(new Node("Don't compromise", ""));
+        String u49 = nodeCollection.insertNode(new Node("Search for it", ""));
+        String s46 = nodeCollection.insertNode(new Node("Nothing here", "You walked for hours now, but till no sight of the Rover.. Maybe it got lost or is under a dune of sand?"));
+        String u50 = nodeCollection.insertNode(new Node("Go back", ""));
+        String u51 = nodeCollection.insertNode(new Node("Keep searching", ""));
+        String s47 = nodeCollection.insertNode(new Node("Meteor fuel!", "You got back to the ship but you don't have anything to fuel it with.. Unless.. the meteor! Maybe you cn try to use it as fuel? Surely it can't be that bad!"));
+        String c21 = nodeCollection.insertNode(new Node("Clogged pipes", "You are all ready - Fire up the engines and it is lift off! But hold on, something is not quite right! The meteor clogged the pipes!"));
+        String c22 = nodeCollection.insertNode(new Node("New fuel", "It works! What a great advance in science! You can finally go back to Earth, but you will definitely come back for further research", "METEOR"));
+        String e14 = nodeCollection.insertNode(new Node("You die", "The spaceship pipes erupted and caused the the vehicle to explode"));
+        String e15 = nodeCollection.insertNode(new Node("You live", "After many days in orbit, you get back to Earth safely, ready to tell many, many stories"));
+        String s48 = nodeCollection.insertNode(new Node("Too far", "Oh no! You went to far from the ship and you can't get any signals from it"));
+        String s49 = nodeCollection.insertNode(new Node("There it is", "After a couple of hours, you find the Rover! It is a marvelous piece of engineering, but seems like it is still moving?"));
+        String s50 = nodeCollection.insertNode(new Node("Wait and see", "You decide to look at it from a distance and think of a plan, maybe if you hit it with something it will stop? Or will the solar panels stop working at night?"));
+        String u52 = nodeCollection.insertNode(new Node("Wait until dark", ""));
+        String u53 = nodeCollection.insertNode(new Node("Throw sand", ""));
+        String s51 = nodeCollection.insertNode(new Node("Freezing cold", "You didn't consider that you are on a way colder planet! It is way to cold to be outside at night!"));
+        String e16 = nodeCollection.insertNode(new Node("You die", "You die from hypothermia! Staying outside at night on a different planet was not the smartest option"));
+        String s52 = nodeCollection.insertNode(new Node("Powerful sand", "It worked! Seems like the rover is no longer moving - You probably hit one of its sensors!"));
+        String s53 = nodeCollection.insertNode(new Node("Approach", "As the rover is not moving, you approach it and start picking up the most important pieces - These will be helpful to build some structures"));
+        String e17 = nodeCollection.insertNode(new Node("You live", "You now have all the components to start building the most critical components for a lab and a very small camp! Here you will start a new whole story!"));
+        String s54 = nodeCollection.insertNode(new Node("The rock!", "You have a meteor that you could use to hit the Rover with! Should you throw it to the Rover?"));
+        String u54 = nodeCollection.insertNode(new Node("Don't throw", ""));
+        String u55 = nodeCollection.insertNode(new Node("Throw it", ""));
+        String c23 = nodeCollection.insertNode(new Node("Miss", "You missed! You should definitely work on your through skills because you just lost the meteor!", "METEOR"));
+        String c24 = nodeCollection.insertNode(new Node("Nice hit!", "You hit the Rover right on one of its sensors! It is definitely not going to move now! And you make sure to pick up the rock"));
+
 
 //        String t0 = nodeCollection.insertNode(new Node("TEST", "TEST"));
 
@@ -626,6 +656,116 @@ public class MapHelper {
         options = new ArrayList<>();
         options.add(new Option(s40, 0));
         nodeCollection.addNodeOptions(u17, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(s44, 0));
+        nodeCollection.addNodeOptions(s43, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(u46, 0));
+        options.add(new Option(u47, 0));
+        nodeCollection.addNodeOptions(s44, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(s45, 0));
+        nodeCollection.addNodeOptions(u46, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(u48, 0));
+        options.add(new Option(u49, 0));
+        nodeCollection.addNodeOptions(s45, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(s46, 0));
+        nodeCollection.addNodeOptions(u48, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(u50, 0));
+        options.add(new Option(u51, 0));
+        nodeCollection.addNodeOptions(s46, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(s47, 0, Collections.singletonList(new Requirement("METEOR", true))));
+        options.add(new Option(e7, 0, Collections.singletonList(new Requirement("METEOR", false))));
+        nodeCollection.addNodeOptions(u39, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(c21, 10));
+        options.add(new Option(c22, 90));
+        nodeCollection.addNodeOptions(s47, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(e14, 0));
+        nodeCollection.addNodeOptions(c21, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(e15, 0));
+        nodeCollection.addNodeOptions(c22, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(s48, 70));
+        options.add(new Option(s49, 30));
+        nodeCollection.addNodeOptions(s47, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(e7, 0));
+        nodeCollection.addNodeOptions(s48, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(s49, 0));
+        nodeCollection.addNodeOptions(u49, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(s54, 0, Collections.singletonList(new Requirement("METEOR", true))));
+        options.add(new Option(s50, 0, Collections.singletonList(new Requirement("METEOR", false))));
+        nodeCollection.addNodeOptions(s49, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(u52, 0));
+        options.add(new Option(u53, 0));
+        nodeCollection.addNodeOptions(s50, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(s51, 0));
+        nodeCollection.addNodeOptions(u52, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(e16, 0));
+        nodeCollection.addNodeOptions(s51, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(s52, 0));
+        nodeCollection.addNodeOptions(u53, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(u54, 0));
+        options.add(new Option(u55, 0));
+        nodeCollection.addNodeOptions(s54, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(c23, 20));
+        options.add(new Option(c24, 80));
+        nodeCollection.addNodeOptions(u55, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(s50, 0));
+        nodeCollection.addNodeOptions(c23, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(s53, 0));
+        nodeCollection.addNodeOptions(c24, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(s52, 0));
+        nodeCollection.addNodeOptions(u53, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(e17, 0));
+        nodeCollection.addNodeOptions(s53, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(s53, 0));
+        nodeCollection.addNodeOptions(s52, options);
 
         nodeCollection.save();
 
