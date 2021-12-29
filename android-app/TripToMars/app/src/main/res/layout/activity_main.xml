@@ -42,7 +42,8 @@
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-            app:layout_constraintHorizontal_bias="1.0" />
+            app:layout_constraintHorizontal_bias="1.0"
+            app:lottie_rawRes="@raw/idle_astronaut_0"/>
 
     <Button
             android:text="Start Test"

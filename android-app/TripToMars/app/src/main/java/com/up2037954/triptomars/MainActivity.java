@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.airbnb.lottie.LottieDrawable;
 import com.google.android.material.button.MaterialButton;
 import com.up2037954.triptomars.Helpers.AndroidHelper;
 import com.up2037954.triptomars.Helpers.AppSettings;
@@ -61,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
             Step currentStep = mapNavigation.getStartingStep();
             drawStep(currentStep);
 
+            int id = getResources().getIdentifier("idle_astronaut_0", "raw", getPackageName());
+            animationView.setAnimation(id);
+
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -84,6 +88,12 @@ public class MainActivity extends AppCompatActivity {
         if (currentNode.hasAnimation()) {
             int id = getResources().getIdentifier(currentNode.getAnimation(), "raw", getPackageName());
             animationView.setAnimation(id);
+
+            if (currentNode.getAnimationLoops() != 0)
+                animationView.setRepeatCount(currentNode.getAnimationLoops() - 1);
+            else
+                animationView.setRepeatCount(LottieDrawable.INFINITE);
+
             animationView.playAnimation();
         }
     }

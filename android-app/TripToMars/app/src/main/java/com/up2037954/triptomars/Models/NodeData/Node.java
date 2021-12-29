@@ -70,12 +70,12 @@ public class Node {
     public boolean hasAnimation() {return !TextUtils.isEmpty(getAnimation());}
 
     @SerializedName(value = "animationDuration")
-    private int animationDuration = 0;
+    private int animationLoops = 0;
 
-    private int getAnimationDuration() { return animationDuration;}
+    public int getAnimationLoops() { return animationLoops;}
 
-    private void setAnimationDuration(int animationDuration) {
-        this.animationDuration = animationDuration;
+    private void setAnimationLoops(int animationLoops) {
+        this.animationLoops = animationLoops;
     }
 
 
@@ -102,13 +102,13 @@ public class Node {
         this.setAnimation(animation);
     }
 
-    public Node(String title, String description, String itemToSave, String animation, int animationDuration) {
+    public Node(String title, String description, String itemToSave, String animation, int animationLoops) {
         this.setId(UUID.randomUUID().toString());
         this.setTitle(title);
         this.setDescription(description);
         this.setItemToSave(itemToSave);
         this.setAnimation(animation);
-        this.setAnimationDuration(animationDuration);
+        this.setAnimationLoops(animationLoops);
     }
 
     public Node(String title, String description, boolean isBeginning) {
