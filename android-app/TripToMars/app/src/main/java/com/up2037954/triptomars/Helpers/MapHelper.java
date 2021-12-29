@@ -2,6 +2,7 @@ package com.up2037954.triptomars.Helpers;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.up2037954.triptomars.Models.NodeData.Node;
 import com.up2037954.triptomars.Models.NodeData.Option;
@@ -61,7 +62,7 @@ public class MapHelper {
         String s11 = nodeCollection.insertNode(new Node("Land on Mars", "You made it! You finally landed on the red planet.. but now there's a lot of pressure! Who will be the first to put foot on the new planet? Will you push to be the first or will you follow the procedures?"));
         String u10 = nodeCollection.insertNode(new Node("Push", ""));
         String u11 = nodeCollection.insertNode(new Node("Follow procedures", ""));
-        String c4 = nodeCollection.insertNode(new Node("You tripped", "In the rush to get out you trip over a step!"));
+        String c4 = nodeCollection.insertNode(new Node("You tripped", "In the rush to get out you trip over a step!", "", "warning_astronaut", 1));
         String e4 = nodeCollection.insertNode(new Node("You die", "The pen you had perforated the suit resulting in a catastrophic failure!", "", "falling_astronaut"));
         String e5 = nodeCollection.insertNode(new Node("You die", "Your helmet cracks and yuo die from asphyxia!", "", "falling_astronaut"));
         String c5 = nodeCollection.insertNode(new Node("You get hurt", "The suit is still all in one place, but you are sore and not really sure why - Should you tell anyone?"));
@@ -142,16 +143,16 @@ public class MapHelper {
         String s38 = nodeCollection.insertNode(new Node("Team's gone", "All your team members get killed by meteors"));
         String e12 = nodeCollection.insertNode(new Node("You die", "You can't survive alone - Cold, hunger, and loneliness kill you", "", "falling_astronaut"));
         String s39 = nodeCollection.insertNode(new Node("Team's gone", "All your team members get killed by the sandstorm"));
-        String c19 = nodeCollection.insertNode(new Node("Meteor hit", "You got hit by a meteor!", "", "idle_astronaut_2"));
+        String c19 = nodeCollection.insertNode(new Node("Meteor hit", "You got hit by a meteor!", "", "idle_astronaut_1"));
         String e13 = nodeCollection.insertNode(new Node("You die", "The hit is too severe and you can't survive any longer", "", "falling_astronaut"));
-        String c20 = nodeCollection.insertNode(new Node("Team reached", "You were able to reach your team! But is it safe to stay close to the meteor shower?", "", "idle_astronaut_2"));
+        String c20 = nodeCollection.insertNode(new Node("Team reached", "You were able to reach your team! But is it safe to stay close to the meteor shower?", "", "idle_astronaut_1"));
         String u43 = nodeCollection.insertNode(new Node("Stay out", ""));
         String s40 = nodeCollection.insertNode(new Node("Space gift", "While out, a small meteor falls near you. It has a very bright red color and looks piping hot"));
         String u44 = nodeCollection.insertNode(new Node("Leave it", ""));
         String u45 = nodeCollection.insertNode(new Node("Pick it up", ""));
         String s41 = nodeCollection.insertNode(new Node("New item", "It does look super hot, but to the touch it actually very cold! It surely must have some useful properties!", "METEOR"));
         String s42 = nodeCollection.insertNode(new Node("Closing by", "The meteor shower starts closing by - You wisely decide to return to the ship"));
-        String s43 = nodeCollection.insertNode(new Node("Back to the ship", "You are now back in the ship with your team and wait for the storm to finish and move away.. It is still a nice and cozy place after all!", "", "idle_astronaut_2"));
+        String s43 = nodeCollection.insertNode(new Node("Back to the ship", "You are now back in the ship with your team and wait for the storm to finish and move away.. It is still a nice and cozy place after all!", "", "idle_astronaut_1"));
         String s44 = nodeCollection.insertNode(new Node("Safe outside", "The dangerous storm seems to have passed by - You can safely get out and start exploring the planet.. or should you start searching for resources to go back to home?"));
         String u46 = nodeCollection.insertNode(new Node("Explore", ""));
         String u47 = nodeCollection.insertNode(new Node("Get for resources", ""));
@@ -880,7 +881,7 @@ public class MapHelper {
         return nodeCollection;
     }
 
-    public static MapValidationData validateMap(NodeCollection nodeCollection) throws Exception {
+    public static MapValidationData validateMapPath(NodeCollection nodeCollection) throws Exception {
 
         Map<String, Node> nodeIdToNode = new HashMap<>();
         String startingNodeId = "";
@@ -903,27 +904,30 @@ public class MapHelper {
         return validatePath(nodeIdToNode, startingNodeId);
     }
 
-    private static MapValidationData validatePath(Map<String, Node> nodeIdToNode, String currentNodeId) {
+    private static MapValidationData validatePath(Map<String, Node> nodeIdToNode, String currentNodeId) throws Exception {
 
-        List<Option> nodeOptions = nodeIdToNode.get(currentNodeId).getOptions();
+        Node currentNode = nodeIdToNode.get(currentNodeId);
+        if (currentNode == null)
+            throw new Exception("Invalid node id provided [" + currentNodeId + "]");
 
-        MapValidationData data = new MapValidationData(currentNodeId);
+        List<Option> nodeOptions = currentNode.getOptions();
+        MapValidationData currentPathData = new MapValidationData(currentNodeId);
 
         if (nodeOptions.size() == 0) {
-            data.addEnding(currentNodeId);
-            return data;
+            currentPathData.addEnding(currentNodeId);
+            return currentPathData;
         }
 
         for (Option option : nodeOptions) {
 
-            MapValidationData pathData = validatePath(nodeIdToNode, option.getNodeId());
+            MapValidationData subPathData = validatePath(nodeIdToNode, option.getNodeId());
 
-            data.getExploredNodes().addAll(pathData.getExploredNodes());
-            data.getEndings().addAll(pathData.getEndings());
+            currentPathData.addExploredNodes(subPathData.getExploredNodes());
+            currentPathData.addEndings(subPathData.getEndings());
         }
 
-        data.setExploredNodes(data.getExploredNodes().stream().distinct().collect(Collectors.toList()));
-        data.setEndings(data.getEndings().stream().distinct().collect(Collectors.toList()));
-        return data;
+        currentPathData.setExploredNodes(currentPathData.getExploredNodes());
+        currentPathData.setEndings(currentPathData.getEndings());
+        return currentPathData;
     }
 }

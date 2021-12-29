@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class MapNav {
 
@@ -24,7 +23,7 @@ public class MapNav {
         this.nodeCollection = nodeCollection;
         this.userSettings = userSettings;
 
-        processValidationResult(MapHelper.validateMap(nodeCollection));
+        processValidationResult(MapHelper.validateMapPath(nodeCollection));
     }
 
     private void processValidationResult(MapValidationData mapValidationResult) throws Exception {
