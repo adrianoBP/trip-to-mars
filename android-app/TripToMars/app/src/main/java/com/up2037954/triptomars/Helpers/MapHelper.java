@@ -50,7 +50,7 @@ public class MapHelper {
         String s5 = nodeCollection.insertNode(new Node("Is it enough?", "The system sensors are sure are positive that you will make it home safely, however, according to your team's calculations, the oxygen won't be enough for all of you..."));
         String u8 = nodeCollection.insertNode(new Node("Trust the system", ""));
         String u9 = nodeCollection.insertNode(new Node("Sacrifice yourself", ""));
-        String e1 = nodeCollection.insertNode(new Node("You live", "The systems were right! You get back safely into the Earth's atmosphere and splash into the ocean! You are home."));
+        String e1 = nodeCollection.insertNode(new Node("You live", "The systems were right! You get back safely into the Earth's atmosphere and splash into the ocean! You are home.", "", "trophy", 1));
         String e2 = nodeCollection.insertNode(new Node("You die", "You sacrificed yourself for the team. You will never know if your team makes it home or if they were wrong, but you die peacefully.", "", "falling_astronaut"));
         String s6 = nodeCollection.insertNode(new Node("A hole!", "A small meteor perforated the structure of the ship and there's an oxygen leak!"));
         String s7 = nodeCollection.insertNode(new Node("The pen", "The pen from your boss is the exact size of the hole and could be a temporary fix"));
@@ -93,7 +93,7 @@ public class MapHelper {
         String u24 = nodeCollection.insertNode(new Node("Be peaceful", ""));
         String u25 = nodeCollection.insertNode(new Node("Assert dominance", ""));
         String s23 = nodeCollection.insertNode(new Node("Earth people!", "They are from Earth! What great news. After some more talking, they explain to you that they were on a secret mission but got lost after a meteor storm killed their navigator and now they are just trying to survive - Your presence will be extremely helpful to them"));
-        String e8 = nodeCollection.insertNode(new Node("You live", "You and your team decide to join the secret mission - Is this already a new beginning?"));
+        String e8 = nodeCollection.insertNode(new Node("You live", "You and your team decide to join the secret mission - Is this already a new beginning?", "", "trophy", 1));
         String s24 = nodeCollection.insertNode(new Node("Weapons!", "That probably wasn't the best move! You now clearly see that they have weapons and they are pointing at you!"));
         String u26 = nodeCollection.insertNode(new Node("Surrender", ""));
         String u27 = nodeCollection.insertNode(new Node("Fight", ""));
@@ -165,7 +165,7 @@ public class MapHelper {
         String c21 = nodeCollection.insertNode(new Node("Clogged pipes", "You all are ready to go - Fire up the engines and it is lift-off! But hold on, something is not quite right! The meteor clogged the pipes!"));
         String c22 = nodeCollection.insertNode(new Node("New fuel", "It works! What a great advance in science! You can finally go back to Earth, but you will definitely come back for further research", "METEOR"));
         String e14 = nodeCollection.insertNode(new Node("You die", "The spaceship pipes erupted and caused the vehicle to explode", "", "falling_astronaut"));
-        String e15 = nodeCollection.insertNode(new Node("You live", "After many days in orbit, you get back to Earth safely, ready to tell many, many stories"));
+        String e15 = nodeCollection.insertNode(new Node("You live", "After many days in orbit, you get back to Earth safely, ready to tell many, many stories", "", "trophy", 1));
         String s48 = nodeCollection.insertNode(new Node("Too far", "Oh no! You went too far from the ship and you can't get any signals from it"));
         String s49 = nodeCollection.insertNode(new Node("There it is", "After a couple of hours, you find the Rover! It is a marvelous piece of engineering, but seems like it is still moving?"));
         String s50 = nodeCollection.insertNode(new Node("Wait and see", "You decide to look at it from a distance and think of a plan, maybe if you hit it with something it will stop? Or will the solar panels stop working at night?"));
@@ -175,7 +175,7 @@ public class MapHelper {
         String e16 = nodeCollection.insertNode(new Node("You die", "You die from hypothermia! Staying outside at night on a different planet was not the smartest option", "", "falling_astronaut"));
         String s52 = nodeCollection.insertNode(new Node("Powerful sand", "It worked! Seems like the rover is no longer moving - You probably hit one of its sensors!"));
         String s53 = nodeCollection.insertNode(new Node("Approach", "As the rover is not moving, you approach it and start picking up the most important pieces - These will be helpful to build some structures"));
-        String e17 = nodeCollection.insertNode(new Node("You live", "You now have all the components to start building the most critical components for a lab and a very small camp! Here you will start a new whole story!"));
+        String e17 = nodeCollection.insertNode(new Node("You live", "You now have all the components to start building the most critical components for a lab and a very small camp! Here you will start a new whole story!", "", "trophy", 1));
         String s54 = nodeCollection.insertNode(new Node("The rock!", "You have a meteor that you could use to hit the Rover with! Should you throw it to the Rover?"));
         String u54 = nodeCollection.insertNode(new Node("Don't throw", ""));
         String u55 = nodeCollection.insertNode(new Node("Throw it", ""));
@@ -200,7 +200,7 @@ public class MapHelper {
         String u61 = nodeCollection.insertNode(new Node("Leave it", ""));
         String c25 = nodeCollection.insertNode(new Node("Nice hit!", "It worked! You smashed one of the critical joints and it opened like an egg - You can finally get all the components"));
         String c26 = nodeCollection.insertNode(new Node("Junk metal", "Oh no! You hit one of the critical components! It is now literally a piece of junk metal.. The only left thing to do is to go back"));
-        String e20 = nodeCollection.insertNode(new Node("You live", "You now have all the components and you had back to the ship - You can finally fix the broken parts to head home!"));
+        String e20 = nodeCollection.insertNode(new Node("You live", "You now have all the components and you had back to the ship - You can finally fix the broken parts to head home!", "", "trophy", 1));
         String s64 = nodeCollection.insertNode(new Node("HQ rules", "Headquarters don't consider it safe - This means that you have to go back to Earth!"));
 
 
