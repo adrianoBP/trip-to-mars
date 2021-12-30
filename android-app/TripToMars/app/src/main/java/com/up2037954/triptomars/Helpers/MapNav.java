@@ -2,6 +2,7 @@ package com.up2037954.triptomars.Helpers;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.up2037954.triptomars.Models.NodeData.*;
 import com.up2037954.triptomars.Models.Utils.*;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class MapNav {
 
@@ -33,11 +35,21 @@ public class MapNav {
         if (mapValidationResult.getEndings().size() == 0)
             throw new Exception("No endings found");
 
+        // Verify that all the endings can be reached
+        List<String> endingNodes = this.nodeCollection.toList()
+                .stream()
+                .filter(node -> node.getOptions().size() == 0)
+                .map(Node::getId)
+                .collect(Collectors.toList());
+        endingNodes.removeAll(mapValidationResult.getEndings());
+        if(endingNodes.size() != 0)
+            throw new Exception("One or more endings cannot be reached");
+
         // Make sure that all the nodes are used
-        if (mapValidationResult.getExploredNodes().size() < nodeCollection.toList().size()) {
+        if (mapValidationResult.getExploredNodes().size() < this.nodeCollection.toList().size()) {
 
             List<String> notExploredNodes = new ArrayList<>();
-            for (Node node : nodeCollection.toList()) {
+            for (Node node : this.nodeCollection.toList()) {
                 if (!mapValidationResult.getExploredNodes().contains(node.getId()))
                     notExploredNodes.add(node.getTitle());
             }
@@ -48,7 +60,7 @@ public class MapNav {
     }
 
     public Step getStartingStep() {
-        Node startingNode = nodeCollection.getStartingNode();
+        Node startingNode = this.nodeCollection.getStartingNode();
         return new Step(
                 startingNode,
                 Objects.requireNonNull(startingNode).getOptions().get(0).getNodeId());
@@ -59,7 +71,7 @@ public class MapNav {
         // Save node items
         userSettings.tryAddItem(selectedOption.getItemToSave());
 
-        // When user clicks on 'next', we want to skip that that and go directly to the content
+        // When user clicks on 'next', we want to skip that and go directly to the content
         if (selectedOption.getTitle().equalsIgnoreCase("next"))
             selectedOption = getNodeById(selectedOption.getOptions().get(0).getNodeId());
 
@@ -100,8 +112,8 @@ public class MapNav {
             List<Node> availableNodes = new ArrayList<>();
             // Otherwise, return the options that the user can select
             for (Option option : selectedNode.getOptions()) {
-                if (option.requirementsAreMet(userSettings))
-                    availableNodes.add(nodeCollection.getNodeById(option.getNodeId()));
+                if (option.requirementsAreMet(this.userSettings))
+                    availableNodes.add(this.nodeCollection.getNodeById(option.getNodeId()));
             }
             return availableNodes;
         }
@@ -130,6 +142,6 @@ public class MapNav {
         if (TextUtils.isEmpty(nodeId))
             throw new Exception("Provided node ID is null or empty!");
 
-        return nodeCollection.getNodeById(nodeId);
+        return this.nodeCollection.getNodeById(nodeId);
     }
 }

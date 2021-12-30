@@ -579,7 +579,7 @@ public class MapHelper {
         options = new ArrayList<>();
         options.add(new Option(c14, 60));
         options.add(new Option(c15, 40));
-        nodeCollection.addNodeOptions(s36, options);
+        nodeCollection.addNodeOptions(u40, options);
 
         options = new ArrayList<>();
         options.add(new Option(e11, 0));
@@ -700,7 +700,7 @@ public class MapHelper {
         options = new ArrayList<>();
         options.add(new Option(s47, 0, Collections.singletonList(new Requirement("METEOR", true))));
         options.add(new Option(e7, 0, Collections.singletonList(new Requirement("METEOR", false))));
-        nodeCollection.addNodeOptions(u39, options);
+        nodeCollection.addNodeOptions(u50, options);
 
         options = new ArrayList<>();
         options.add(new Option(c21, 10));
@@ -718,7 +718,7 @@ public class MapHelper {
         options = new ArrayList<>();
         options.add(new Option(s48, 70));
         options.add(new Option(s49, 30));
-        nodeCollection.addNodeOptions(s47, options);
+        nodeCollection.addNodeOptions(u51, options);
 
         options = new ArrayList<>();
         options.add(new Option(e7, 0));
@@ -754,6 +754,10 @@ public class MapHelper {
         options.add(new Option(u54, 0));
         options.add(new Option(u55, 0));
         nodeCollection.addNodeOptions(s54, options);
+
+        options = new ArrayList<>();
+        options.add(new Option(s50, 0));
+        nodeCollection.addNodeOptions(u54, options);
 
         options = new ArrayList<>();
         options.add(new Option(c23, 20));
