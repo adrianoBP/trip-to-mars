@@ -2,7 +2,6 @@ package com.up2037954.triptomars.Helpers;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.up2037954.triptomars.Models.NodeData.Node;
 import com.up2037954.triptomars.Models.NodeData.Option;
@@ -15,7 +14,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class MapHelper {
 
@@ -203,7 +201,6 @@ public class MapHelper {
         String c26 = nodeCollection.insertNode(new Node("Junk metal", "Oh no! You hit one of the critical components! It is now literally a piece of junk metal.. The only left thing to do is to go back"));
         String e20 = nodeCollection.insertNode(new Node("You live", "You now have all the components and you had back to the ship - You can finally fix the broken parts to head home!", "", "trophy", 1));
         String s64 = nodeCollection.insertNode(new Node("HQ rules", "Headquarters don't consider it safe - This means that you have to go back to Earth!"));
-
 
 //        String t0 = nodeCollection.insertNode(new Node("TEST", "TEST"));
 

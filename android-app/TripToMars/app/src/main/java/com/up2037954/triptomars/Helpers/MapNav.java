@@ -23,7 +23,8 @@ public class MapNav {
         this.nodeCollection = nodeCollection;
         this.userSettings = userSettings;
 
-        processValidationResult(MapHelper.validateMapPath(nodeCollection));
+        if (!AppSettings.isLive)
+            processValidationResult(MapHelper.validateMapPath(nodeCollection));
     }
 
     private void processValidationResult(MapValidationData mapValidationResult) throws Exception {
@@ -37,18 +38,9 @@ public class MapNav {
 
             List<String> notExploredNodes = new ArrayList<>();
             for (Node node : nodeCollection.toList()) {
-                if(!mapValidationResult.getExploredNodes().contains(node.getId()))
+                if (!mapValidationResult.getExploredNodes().contains(node.getId()))
                     notExploredNodes.add(node.getTitle());
             }
-
-//            List<String> collectionNodeIds = nodeCollection.toList()
-//                    .stream()
-//                    .map(Node::getId)
-//                    .collect(Collectors.toList());
-//
-//            List<String> notExploredNodes = collectionNodeIds.stream()
-//                    .filter(aObject -> !mapValidationResult.getExploredNodes().contains(aObject))
-//                    .collect(Collectors.toList());
 
             throw new Exception("One or more nodes are not used: "
                     + TextUtils.join(", ", notExploredNodes));

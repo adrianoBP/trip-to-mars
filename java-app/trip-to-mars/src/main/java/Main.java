@@ -1,5 +1,6 @@
 import Helpers.*;
 import Models.NodeData.Node;
+import Models.Utils.NodeCollection;
 import Models.Utils.Step;
 import Models.UserSettings;
 
@@ -27,7 +28,8 @@ public class Main {
 
     private static void newGame(UserSettings userSettings) throws Exception {
 
-        MapNav mapNavigation = new MapNav(userSettings);
+        NodeCollection nodeCollection = MapHelper.buildMap();
+        MapNav mapNavigation = new MapNav(userSettings, nodeCollection);
         Step currentStep = mapNavigation.getStartingStep();
 
         do {
@@ -38,18 +40,23 @@ public class Main {
             // we should only have one or more options as it is the main condition in the loop
             Node selectedOption = currentStep.getUserOptions().get(0);
 
+            String userInput = "";
+
             if (currentStep.getUserOptions().size() == 1) {
-                getStringFromConsole("Press ENTER to continue  ...");
+                userInput = getStringFromConsole("Press ENTER to continue  ...");
+                if (userInput.equalsIgnoreCase("e")) {break;}
             } else {
                 for (int i = 0; i < currentStep.getUserOptions().size(); i++) {
                     printLine("[" + (i + 1) + "] " + currentStep.getUserOptions().get(i).getTitle());
                 }
-                selectedOption = currentStep.getUserOptions().get(getIntFromConsole() - 1);
+
+                userInput = getStringFromConsole();
+                if (userInput.equalsIgnoreCase("e")) {break;}
+
+                selectedOption = currentStep.getUserOptions().get(Integer.parseInt(userInput));
             }
 
-            mapNavigation.saveUserOption(selectedOption);
-
-            currentStep = mapNavigation.selectNextStep(currentStep.getUserOptions().size() > 1);
+            currentStep = mapNavigation.selectNextStep(selectedOption, currentStep.isUserChoice());
 
         } while (currentStep.getUserOptions().size() > 0);
 

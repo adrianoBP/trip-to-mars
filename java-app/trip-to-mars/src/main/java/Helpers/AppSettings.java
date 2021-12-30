@@ -8,6 +8,7 @@ public class AppSettings {
 
     public static String nodesFilePath;
     public static String usersFilePath;
+    public static boolean isLive;
 
     public static void init() throws IOException {
 
@@ -18,6 +19,7 @@ public class AppSettings {
 
         nodesFilePath = prop.getProperty("filesystem.path.nodes");
         usersFilePath = prop.getProperty("filesystem.path.users");
+        isLive = false;
     }
 }
 

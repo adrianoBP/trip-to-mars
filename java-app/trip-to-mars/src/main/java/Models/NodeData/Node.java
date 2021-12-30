@@ -1,11 +1,12 @@
 package Models.NodeData;
 
 import com.google.gson.annotations.SerializedName;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+
 
 public class Node {
 
@@ -58,15 +59,26 @@ public class Node {
 
     public void addOption(Option option) {this.options.add(option);}
 
+    @SerializedName(value = "animation")
+    private String animation = "";
 
-    public Node() {
-        this.setId(UUID.randomUUID().toString());
+    public String getAnimation() {return animation;}
+
+    public void setAnimation(String animation) {this.animation = animation;}
+
+    public boolean hasAnimation() {return getAnimation().isBlank();}
+
+    @SerializedName(value = "animationDuration")
+    private int animationLoops = 0;
+
+    public int getAnimationLoops() {return animationLoops;}
+
+    private void setAnimationLoops(int animationLoops) {
+        this.animationLoops = animationLoops;
     }
 
-    public Node(String title) {
-        this.setId(UUID.randomUUID().toString());
-        this.setTitle(title);
-    }
+
+    public Node() {}
 
     public Node(String title, String description) {
         this.setId(UUID.randomUUID().toString());
@@ -81,25 +93,45 @@ public class Node {
         this.setItemToSave(itemToSave);
     }
 
-    public Node(String title, String description, String itemToSave, boolean isBeginning) {
+    public Node(String title, String description, String itemToSave, String animation) {
         this.setId(UUID.randomUUID().toString());
         this.setTitle(title);
         this.setDescription(description);
         this.setItemToSave(itemToSave);
+        this.setAnimation(animation);
+    }
+
+    public Node(String title, String description, String itemToSave, String animation, int animationLoops) {
+        this.setId(UUID.randomUUID().toString());
+        this.setTitle(title);
+        this.setDescription(description);
+        this.setItemToSave(itemToSave);
+        this.setAnimation(animation);
+        this.setAnimationLoops(animationLoops);
+    }
+
+    public Node(String title, String description, boolean isBeginning) {
+        this.setId(UUID.randomUUID().toString());
+        this.setTitle(title);
+        this.setDescription(description);
         this.setBeginning(isBeginning);
     }
 
     public Node(String title, Option option) {
         this.setId(UUID.randomUUID().toString());
         this.setTitle(title);
-        this.options = List.of(option);
+        this.setOptions(Collections.singletonList(option));
+    }
+
+    public boolean isChanceChoice() {
+        return this.getOptions().stream().allMatch(Option::isChanceOption);
     }
 
     @Override
     public String toString() {
         return "[" + this.getId() + "] " +
                 this.getTitle() + " - " +
-                (StringUtils.isEmpty(this.getDescription()) ? "" : this.getDescription() + " - ") +
+                (this.getDescription().isBlank() ? "" : this.getDescription() + " - ") +
                 "Is Beginning: " + this.isBeginning +
                 " (" + this.getOptions().size() + " available options)";
     }

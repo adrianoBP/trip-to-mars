@@ -12,8 +12,8 @@ public class MainTesting {
     public static void main(String[] args) {
 
         Node mainNode = new Node("Malfunction", "According to the systems, there is a malfunction with the spacecraft ventilation");
-        Node option1 = new Node("Turn back");
-        Node option2 = new Node("Try and fix");
+        Node option1 = new Node("Turn back", "Sample description 1");
+        Node option2 = new Node("Try and fix", "Sample description 2");
 
         mainNode.addOption(new Option(option1.getId(), 0));
         mainNode.addOption(new Option(option2.getId(), 0));
