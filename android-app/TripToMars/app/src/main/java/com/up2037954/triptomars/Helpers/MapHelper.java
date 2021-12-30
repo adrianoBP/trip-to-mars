@@ -917,7 +917,7 @@ public class MapHelper {
         MapValidationData currentPathData = new MapValidationData(currentNodeId);
 
         if (nodeOptions.size() == 0) {
-            currentPathData.addEnding(currentNode.getTitle());
+            currentPathData.addEnding(currentNodeId);
             return currentPathData;
         }
 
