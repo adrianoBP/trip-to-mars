@@ -9,6 +9,9 @@ import Models.Utils.NodeCollection;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static Helpers.Standard.ConsoleHelper.print;
+import static Helpers.Standard.ConsoleHelper.printLine;
+
 public class MapHelper {
 
     public static NodeCollection buildMap() throws Exception {
@@ -896,10 +899,10 @@ public class MapHelper {
         if (startingNodeId.isBlank())
             throw new Exception("No starting nodes found");
 
-        return validatePath(nodeIdToNode, startingNodeId);
+        return validatePath(nodeIdToNode, startingNodeId, new ArrayList<>());
     }
 
-    private static MapValidationData validatePath(Map<String, Node> nodeIdToNode, String currentNodeId) throws Exception {
+    private static MapValidationData validatePath(Map<String, Node> nodeIdToNode, String currentNodeId, List<String> visitedNodes) throws Exception {
 
         Node currentNode = nodeIdToNode.get(currentNodeId);
         if (currentNode == null)
@@ -909,20 +912,24 @@ public class MapHelper {
         MapValidationData currentPathData = new MapValidationData(currentNodeId);
 
         if (nodeOptions.size() == 0) {
-            currentPathData.addEnding(currentNodeId);
+            currentPathData.addEnding(currentNode.getTitle());
             return currentPathData;
         }
 
         for (Option option : nodeOptions) {
 
-            MapValidationData subPathData = validatePath(nodeIdToNode, option.getNodeId());
+            if(visitedNodes.contains(option.getNodeId()))
+                continue;
+
+            visitedNodes.addAll(currentPathData.getExploredNodes());
+            MapValidationData subPathData = validatePath(
+                    nodeIdToNode,
+                    option.getNodeId(), visitedNodes.stream().distinct().collect(Collectors.toList()));
 
             currentPathData.addExploredNodes(subPathData.getExploredNodes());
             currentPathData.addEndings(subPathData.getEndings());
         }
 
-        currentPathData.setExploredNodes(currentPathData.getExploredNodes());
-        currentPathData.setEndings(currentPathData.getEndings());
         return currentPathData;
     }
 }

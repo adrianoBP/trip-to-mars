@@ -8,7 +8,7 @@ public class MapValidationData {
 
     private List<String> exploredNodes = new ArrayList<>();
 
-    public List<String> getExploredNodes() {return exploredNodes;}
+    public List<String> getExploredNodes() {return exploredNodes.stream().distinct().collect(Collectors.toList());}
 
     public void setExploredNodes(List<String> exploredNodes) {
 
@@ -21,9 +21,9 @@ public class MapValidationData {
     public void addExploredNodes(List<String> exploredNodes) {this.exploredNodes.addAll(exploredNodes);}
 
 
-    private ArrayList<String> endings = new ArrayList<>();
+    private List<String> endings = new ArrayList<>();
 
-    public ArrayList<String> getEndings() {return endings;}
+    public List<String> getEndings() {return endings.stream().sorted().collect(Collectors.toList());}
 
     public void setEndings(List<String> endings) {
 
