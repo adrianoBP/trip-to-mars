@@ -79,7 +79,7 @@ public class Node {
     }
 
 
-    public Node() {}
+    public Node() {this.setId(UUID.randomUUID().toString());}
 
     public Node(String title, String description) {
         this.setId(UUID.randomUUID().toString());

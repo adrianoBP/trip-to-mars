@@ -78,7 +78,7 @@ public class Node {
     }
 
 
-    public Node() {}
+    public Node() {this.setId(UUID.randomUUID().toString());}
 
     public Node(String title, String description) {
         this.setId(UUID.randomUUID().toString());
@@ -129,10 +129,9 @@ public class Node {
 
     @Override
     public String toString() {
-        return "[" + this.getId() + "] " +
-                this.getTitle() + " - " +
-                (this.getDescription().isBlank() ? "" : this.getDescription() + " - ") +
-                "Is Beginning: " + this.isBeginning +
-                " (" + this.getOptions().size() + " available options)";
+        return "[" + this.getId() + "]" +
+                (this.isBeginning ? "[✔]" : "[✖]") +
+                "[🔀 " + this.getOptions().size() + "] " +
+                this.getTitle() + " - " + this.getDescription();
     }
 }

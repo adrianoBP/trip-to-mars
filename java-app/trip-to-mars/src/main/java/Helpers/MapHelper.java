@@ -16,7 +16,7 @@ public class MapHelper {
 
     public static NodeCollection buildMap() throws Exception {
 
-        NodeCollection nodeCollection = new NodeCollection();
+        NodeCollection nodeCollection = new NodeCollection(!AppSettings.isLive);
 
         if (nodeCollection.getStartingNode() != null)
             return nodeCollection;

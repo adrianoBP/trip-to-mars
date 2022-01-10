@@ -31,7 +31,7 @@ public class NodeCollection {
         return node.getId();
     }
 
-    public void addNodeOptions(String nodeId, ArrayList<Option> options) {
+    public void addNodeOptions(String nodeId, List<Option> options) {
 
         if (!nodeIdToNode.containsKey(nodeId))
             return;
@@ -41,9 +41,11 @@ public class NodeCollection {
         }
     }
 
-    public NodeCollection() throws Exception {
 
-        String nodesFileContent = FileHelper.getOrCreate(AppSettings.nodesFilePath, "[]");
+
+    public NodeCollection(boolean ignoreSavedData) throws Exception {
+
+        String nodesFileContent = ignoreSavedData ? "[]" : FileHelper.getOrCreate(AppSettings.nodesFilePath, "[]");
 
         // We need to define the type first due to Gson not recognising List<>, and we are storing a list of objects
         Type listType = new TypeToken<ArrayList<Node>>() {}.getType();
@@ -67,4 +69,13 @@ public class NodeCollection {
     }
 
     public List<Node> toList() {return new ArrayList<>(nodeIdToNode.values());}
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        for (Node node : this.nodeIdToNode.values()) {
+            builder.append(node.toString() + "\n");
+        }
+        return builder.toString();
+    }
 }
