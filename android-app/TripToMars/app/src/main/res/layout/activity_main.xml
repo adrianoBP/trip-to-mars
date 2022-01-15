@@ -23,7 +23,7 @@
         <TextView
                 android:layout_width="0dp"
                 android:layout_height="53dp"
-                android:text="Demo run of the trip-to-mars application"
+                android:text="@string/main_header"
                 android:id="@+id/mainText"
                 android:textSize="20sp"
                 android:fontFamily="monospace"
@@ -54,13 +54,13 @@
             android:layout_marginTop="84dp" />
 
     <Button
-            android:text="Play"
+            android:text="@string/play"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/playButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:onClick="startApp"
+            android:onClick="playGame"
             app:layout_constraintHorizontal_bias="0.498"
             android:backgroundTint="@color/teal_700"
             app:iconTint="@color/white"
@@ -82,7 +82,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Get ready to start a new out of this world adventure!"
+            android:text="@string/main_description"
             android:textColor="@color/white"
             android:layout_marginTop="64dp" />
 
@@ -98,6 +98,7 @@
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
             android:layout_marginTop="16dp"
             tools:ignore="SpeakableTextPresentCheck"
-            app:tint="@color/white"/>
+            app:tint="@color/white"
+            android:onClick="openSettings" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

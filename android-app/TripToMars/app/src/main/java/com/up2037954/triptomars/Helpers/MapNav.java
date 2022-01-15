@@ -2,7 +2,6 @@ package com.up2037954.triptomars.Helpers;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.up2037954.triptomars.Models.NodeData.*;
 import com.up2037954.triptomars.Models.Utils.*;
@@ -11,7 +10,6 @@ import com.up2037954.triptomars.Models.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class MapNav {
@@ -19,8 +17,7 @@ public class MapNav {
     private final NodeCollection nodeCollection;
     private final UserSettings userSettings;
 
-
-    public MapNav(UserSettings userSettings, NodeCollection nodeCollection, Context context) throws Exception {
+    public MapNav(UserSettings userSettings, NodeCollection nodeCollection) throws Exception {
 
         this.nodeCollection = nodeCollection;
         this.userSettings = userSettings;
@@ -42,7 +39,7 @@ public class MapNav {
                 .map(Node::getId)
                 .collect(Collectors.toList());
         endingNodes.removeAll(mapValidationResult.getEndings());
-        if(endingNodes.size() != 0)
+        if (endingNodes.size() != 0)
             throw new Exception("One or more endings cannot be reached");
 
         // Make sure that all the nodes are used
@@ -59,43 +56,47 @@ public class MapNav {
         }
     }
 
-    public Step getStartingStep() {
+    public Step getStartingStep(UserSettings userSettings) throws Exception {
+
         Node startingNode = this.nodeCollection.getStartingNode();
-        return new Step(
-                startingNode,
-                Objects.requireNonNull(startingNode).getOptions().get(0).getNodeId());
+
+        if (userSettings.getLastVisitedNode() != null) {
+            Node currentNode = this.nodeCollection.getNodeById(userSettings.getLastVisitedNode());
+
+            if (userSettings.getLastAnimationId() != null)
+                startingNode.setAnimation(userSettings.getLastAnimationId());
+
+            // If we saved at an ending node, restart the game
+            if (currentNode.getOptions().size() > 0)
+                startingNode = currentNode;
+        }
+
+        return getStepFromSelectedOption(startingNode);
     }
 
-    public Step selectNextStep(Node selectedOption, boolean isUserOption) throws Exception {
+    public Step selectNextStep(Node selectedOption, boolean isUserOption, Context context) throws Exception {
 
         // Save node items
-        userSettings.tryAddItem(selectedOption.getItemToSave());
+        userSettings.tryAddItem(selectedOption.getItemToSave(), context);
 
         // When user clicks on 'next', we want to skip that and go directly to the content
         if (selectedOption.getTitle().equalsIgnoreCase("next"))
             selectedOption = getNodeById(selectedOption.getOptions().get(0).getNodeId());
+
+        userSettings.addExploredNode(selectedOption.getId(), context);
 
         // We need to skip the selected option as it is not a story node
         if (isUserOption) {
             if (selectedOption.isChanceChoice())
                 // If the current option is a chance node, we need to pick a new node
                 selectedOption = getNodeById(pickOptionByProbability(selectedOption).getNodeId());
-            else
+            else {
                 selectedOption = getNodeById(selectedOption.getOptions().get(0).getNodeId());
+                userSettings.addExploredNode(selectedOption.getId(), context);
+            }
         }
 
-        List<Node> newAvailableOptions = getAvailableNodeOptions(selectedOption);
-
-        if (newAvailableOptions.size() == 0) {
-            // End reached
-            return new Step(selectedOption);
-        } else if (newAvailableOptions.size() == 1) {
-            // System or chance based decision
-            return new Step(selectedOption, newAvailableOptions.get(0).getId());
-        } else {
-            // User based decision
-            return new Step(selectedOption, newAvailableOptions);
-        }
+        return getStepFromSelectedOption(selectedOption);
     }
 
     public List<Node> getAvailableNodeOptions(Node selectedNode) throws Exception {
@@ -144,4 +145,22 @@ public class MapNav {
 
         return this.nodeCollection.getNodeById(nodeId);
     }
+
+    private Step getStepFromSelectedOption(Node selectedOption) throws Exception {
+
+        List<Node> newAvailableOptions = getAvailableNodeOptions(selectedOption);
+
+        if (newAvailableOptions.size() == 0) {
+            // End reached
+            return new Step(selectedOption);
+        } else if (newAvailableOptions.size() == 1) {
+            // System or chance based decision
+            return new Step(selectedOption, newAvailableOptions.get(0).getId());
+        } else {
+            // User based decision
+            return new Step(selectedOption, newAvailableOptions);
+        }
+    }
+
+    public int getCollectionCount() { return this.nodeCollection.getCollectionCount(); }
 }

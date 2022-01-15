@@ -24,6 +24,6 @@ public class AppSettings {
 
         nodesFilePath = properties.getProperty("filesystem.path.nodes");
         usersFilePath = properties.getProperty("filesystem.path.users");
-        isLive = false;
+        isLive = true;
     }
 }

@@ -1,9 +1,13 @@
 package com.up2037954.triptomars;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.view.View;
@@ -34,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private Vibrator vibratorService;
     private LottieAnimationView animationView;
     private FloatingActionButton settingsButton;
+    private UserSettings userSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,29 +52,15 @@ public class MainActivity extends AppCompatActivity {
             settingsButton = findViewById(R.id.settingsButton);
 
             AppSettings.init(this);
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-    }
 
-    public void startApp(View view) {
-
-        UserSettings userSettings = new UserSettings();
-
-        try {
+            // Load settings
+            if (userSettings == null)
+                userSettings = new UserSettings(this);
+            else  // When we complete the map and we restart the game, we want to start from the first node
+                userSettings.setLastVisitedNode(null);
 
             NodeCollection nodeCollection = MapHelper.buildMap(this);
-            mapNavigation = new MapNav(userSettings, nodeCollection, this);
-
-            Step currentStep = mapNavigation.getStartingStep();
-            drawStep(currentStep);
-
-            int id = getResources().getIdentifier("idle_astronaut_0", "raw", getPackageName());
-            animationView.setAnimation(id);
-            animationView.playAnimation();
-
-            ((ConstraintLayout)findViewById(R.id.mainLayout)).addView(settingsButton);
+            mapNavigation = new MapNav(userSettings, nodeCollection);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -77,7 +68,32 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void drawStep(Step step) {
+    public void playGame(View view) {
+
+        try {
+            Step currentStep = mapNavigation.getStartingStep(userSettings);
+            drawStep(currentStep);
+
+            // Add animation
+            int animationId = getResources()
+                    .getIdentifier("idle_astronaut_0", "raw", getPackageName());
+            if (currentStep.getNode().hasAnimation())
+                animationId = getResources().getIdentifier(currentStep.getNode().getAnimation(), "raw", getPackageName());
+
+            animationView.setAnimation(animationId);
+
+            if (userSettings.allowImageAnimations)
+                animationView.playAnimation();
+
+            ((ConstraintLayout) findViewById(R.id.mainLayout)).addView(settingsButton);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void drawStep(Step step) throws IOException {
 
         Node currentNode = step.getNode();
 
@@ -85,7 +101,10 @@ public class MainActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.mainText)).setText(currentNode.getTitle());
 
         // Update description
-        ((TypeWriter) findViewById(R.id.descriptionText)).animateText(currentNode.getDescription());
+        if (userSettings.allowTextAnimations)
+            ((TypeWriter) findViewById(R.id.descriptionText)).animateText(currentNode.getDescription());
+        else
+            ((TypeWriter) findViewById(R.id.descriptionText)).setText(currentNode.getDescription());
 
         // Add button options
         AndroidHelper.createButtons(getOptions(step), findViewById(R.id.mainLayout), this);
@@ -94,13 +113,15 @@ public class MainActivity extends AppCompatActivity {
         if (currentNode.hasAnimation()) {
             int id = getResources().getIdentifier(currentNode.getAnimation(), "raw", getPackageName());
             animationView.setAnimation(id);
+            userSettings.setLastAnimationId(currentNode.getAnimation(), this);
 
             if (currentNode.getAnimationLoops() != 0)
                 animationView.setRepeatCount(currentNode.getAnimationLoops() - 1);
             else
                 animationView.setRepeatCount(LottieDrawable.INFINITE);
 
-            animationView.playAnimation();
+            if (userSettings.allowImageAnimations)
+                animationView.playAnimation();
         }
     }
 
@@ -116,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
             optionButton.setOnClickListener(view -> {
                 Step nextStep = null;
                 try {
-                    nextStep = mapNavigation.selectNextStep(optionNode, currentStep.isUserChoice());
+                    nextStep = mapNavigation.selectNextStep(optionNode, currentStep.isUserChoice(), this);
                     drawStep(nextStep);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -133,11 +154,33 @@ public class MainActivity extends AppCompatActivity {
             vibratorService.vibrate(300);
 
             MaterialButton optionButton = AndroidHelper.newButton("Restart", R.color.teal_700, this);
-            optionButton.setOnClickListener(this::startApp);
+            optionButton.setOnClickListener(this::playGame);
 
             buttonOptions.add(optionButton);
         }
 
         return buttonOptions;
     }
+
+    public void openSettings(View view) {
+
+        Intent intent = new Intent(this, SettingsActivity.class);
+        intent.putExtra("UserSettings", userSettings);
+        intent.putExtra("NodeCount", mapNavigation.getCollectionCount());
+        startSettingsActivity.launch(intent);
+    }
+
+    private final ActivityResultLauncher<Intent> startSettingsActivity = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                    userSettings = (UserSettings) result.getData().getSerializableExtra("UserSettings");
+                    try {
+                        userSettings.save(this);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+    );
 }

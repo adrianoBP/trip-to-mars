@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">TripToMars</string>
+    <string name="play">Play</string>
+    <string name="main_header">trip-to-mars: an out of the world adventure</string>
+    <string name="main_description">Get ready to start a new, truly, out of this world adventure! Click the settings icon on the top right corner to edit the settings and view your stats - Once the mission starts, there\'s no way back!</string>
 </resources>

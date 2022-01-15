@@ -76,4 +76,7 @@ public class NodeCollection {
     }
 
     public List<Node> toList() {return new ArrayList<>(nodeIdToNode.values());}
+
+    public int getCollectionCount() { return this.nodeIdToNode.size(); }
+
 }
