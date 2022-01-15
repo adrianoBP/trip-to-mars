@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.airbnb.lottie.LottieAnimationView;
 import com.airbnb.lottie.LottieDrawable;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.up2037954.triptomars.Helpers.AndroidHelper;
 import com.up2037954.triptomars.Helpers.AppSettings;
 import com.up2037954.triptomars.Helpers.MapHelper;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private MapNav mapNavigation;
     private Vibrator vibratorService;
     private LottieAnimationView animationView;
+    private FloatingActionButton settingsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
             vibratorService = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
             animationView = findViewById(R.id.animation);
+            settingsButton = findViewById(R.id.settingsButton);
 
             AppSettings.init(this);
         } catch (IOException e) {
@@ -64,6 +67,9 @@ public class MainActivity extends AppCompatActivity {
 
             int id = getResources().getIdentifier("idle_astronaut_0", "raw", getPackageName());
             animationView.setAnimation(id);
+            animationView.playAnimation();
+
+            ((ConstraintLayout)findViewById(R.id.mainLayout)).addView(settingsButton);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -82,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         ((TypeWriter) findViewById(R.id.descriptionText)).animateText(currentNode.getDescription());
 
         // Add button options
-        AndroidHelper.createButtons(getOptions(step), (ConstraintLayout) findViewById(R.id.mainLayout), this);
+        AndroidHelper.createButtons(getOptions(step), findViewById(R.id.mainLayout), this);
 
         // Update animation
         if (currentNode.hasAnimation()) {

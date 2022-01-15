@@ -18,6 +18,7 @@ public class MapHelper {
 
         NodeCollection nodeCollection = new NodeCollection(!AppSettings.isLive);
 
+        // TODO: Justify usage: don't need to use system resources every time
         if (nodeCollection.getStartingNode() != null)
             return nodeCollection;
 

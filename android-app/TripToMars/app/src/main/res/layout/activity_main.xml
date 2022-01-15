@@ -5,7 +5,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity"
-        android:id="@+id/mainLayout">
+        android:id="@+id/mainLayout"
+        android:background="@drawable/background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
@@ -16,12 +17,12 @@
             android:id="@+id/constraintLayout"
             android:layout_marginTop="24dp"
             android:background="@drawable/bg_rounded"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp">
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp">
 
         <TextView
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="53dp"
                 android:text="Demo run of the trip-to-mars application"
                 android:id="@+id/mainText"
                 android:textSize="20sp"
@@ -29,11 +30,14 @@
                 android:gravity="center"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:textColor="#C8C8C8"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:layout_marginStart="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.airbnb.lottie.LottieAnimationView
@@ -46,32 +50,54 @@
             app:lottie_loop="true"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
             app:layout_constraintHorizontal_bias="1.0"
-            app:lottie_rawRes="@raw/idle_astronaut_0"
+            app:lottie_rawRes="@raw/idle_astronaut_2"
             android:layout_marginTop="84dp" />
 
     <Button
-            android:text="Start Test"
+            android:text="Play"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/testButton"
+            android:id="@+id/playButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="32dp"
             android:onClick="startApp"
-            app:layout_constraintHorizontal_bias="0.498" />
+            app:layout_constraintHorizontal_bias="0.498"
+            android:backgroundTint="@color/teal_700"
+            app:iconTint="@color/white"
+            app:layout_constraintTop_toBottomOf="@+id/descriptionText"
+            android:layout_marginTop="32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.19"
+            android:textColor="@color/white" />
 
     <com.up2037954.triptomars.Helpers.TypeWriter
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:id="@+id/descriptionText"
             app:layout_constraintTop_toBottomOf="@+id/animation"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="32dp"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
             android:textSize="16sp"
-            app:layout_constraintHorizontal_bias="0.0" />
+            android:background="@drawable/text_background"
+            app:layout_constraintHorizontal_bias="0.0"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Get ready to start a new out of this world adventure!"
+            android:textColor="@color/white"
+            android:layout_marginTop="64dp" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:srcCompat="@drawable/ic_gear"
+            android:id="@+id/settingsButton"
+            app:backgroundTint="@color/teal_700"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+            android:layout_marginTop="16dp"
+            tools:ignore="SpeakableTextPresentCheck"
+            app:tint="@color/white"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

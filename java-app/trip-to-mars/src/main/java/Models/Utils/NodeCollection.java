@@ -45,6 +45,7 @@ public class NodeCollection {
 
     public NodeCollection(boolean ignoreSavedData) throws Exception {
 
+        // TODO: Justify usage: testing
         String nodesFileContent = ignoreSavedData ? "[]" : FileHelper.getOrCreate(AppSettings.nodesFilePath, "[]");
 
         // We need to define the type first due to Gson not recognising List<>, and we are storing a list of objects

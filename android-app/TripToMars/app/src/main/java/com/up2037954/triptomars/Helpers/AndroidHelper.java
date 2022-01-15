@@ -15,7 +15,7 @@ import java.util.List;
 public class AndroidHelper {
 
     public static MaterialButton newButton(String text, Context context) {
-        return newButton(text, R.color.purple_200, context);
+        return newButton(text, R.color.teal_700, context);
     }
 
     public static MaterialButton newButton(String text, int colorId, Context context) {
@@ -24,6 +24,7 @@ public class AndroidHelper {
         newButton.setText(text);
         newButton.setId(View.generateViewId());
         newButton.setBackgroundColor(context.getColor(colorId));
+        newButton.setTextColor(context.getColor(R.color.white));
 
         return newButton;
     }
