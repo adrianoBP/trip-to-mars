@@ -59,23 +59,6 @@ public class Node {
 
     public void addOption(Option option) {this.options.add(option);}
 
-    @SerializedName(value = "animation")
-    private String animation = "";
-
-    public String getAnimation() {return animation;}
-
-    public void setAnimation(String animation) {this.animation = animation;}
-
-    public boolean hasAnimation() {return getAnimation().isBlank();}
-
-    @SerializedName(value = "animationDuration")
-    private int animationLoops = 0;
-
-    public int getAnimationLoops() {return animationLoops;}
-
-    private void setAnimationLoops(int animationLoops) {
-        this.animationLoops = animationLoops;
-    }
 
 
     public Node() {this.setId(UUID.randomUUID().toString());}
@@ -91,23 +74,6 @@ public class Node {
         this.setTitle(title);
         this.setDescription(description);
         this.setItemToSave(itemToSave);
-    }
-
-    public Node(String title, String description, String itemToSave, String animation) {
-        this.setId(UUID.randomUUID().toString());
-        this.setTitle(title);
-        this.setDescription(description);
-        this.setItemToSave(itemToSave);
-        this.setAnimation(animation);
-    }
-
-    public Node(String title, String description, String itemToSave, String animation, int animationLoops) {
-        this.setId(UUID.randomUUID().toString());
-        this.setTitle(title);
-        this.setDescription(description);
-        this.setItemToSave(itemToSave);
-        this.setAnimation(animation);
-        this.setAnimationLoops(animationLoops);
     }
 
     public Node(String title, String description, boolean isBeginning) {

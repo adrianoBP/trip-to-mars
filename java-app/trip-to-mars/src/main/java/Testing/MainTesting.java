@@ -21,7 +21,7 @@ public class MainTesting {
             Node option2 = new Node("Try and fix", "Sample description 2");
 
             // Add all the nodes to the collection
-            NodeCollection collection = new NodeCollection(true);
+            NodeCollection collection = new NodeCollection();
             collection.insertNode(mainNode);
             collection.insertNode(option1);
             collection.insertNode(option2);

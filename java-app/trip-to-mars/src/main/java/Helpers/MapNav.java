@@ -41,7 +41,7 @@ public class MapNav {
                 .map(Node::getId)
                 .collect(Collectors.toList());
         endingNodes.removeAll(mapValidationResult.getEndings());
-        if(endingNodes.size() != 0)
+        if (endingNodes.size() != 0)
             throw new Exception("One or more endings cannot be reached");
 
         // Make sure that all the nodes are used
