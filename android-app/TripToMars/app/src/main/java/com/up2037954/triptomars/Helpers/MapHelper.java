@@ -69,7 +69,7 @@ public class MapHelper {
         String u13 = nodeCollection.insertNode(new Node("Ask for help", ""));
         String c6 = nodeCollection.insertNode(new Node("Just a scratch", "You get back on your feet with no issues! That could have ended very bad!"));
         String c7 = nodeCollection.insertNode(new Node("You walk!", "You got down the ladder and you are now walking on the red planet!"));
-        String s12 = nodeCollection.insertNode(new Node("Exploration", "There you go! You set foot on a new planet and you are now ready to explore it! Now that you are ready, will you be brave enough to go alone or will you take your team with you?"));
+        String s12 = nodeCollection.insertNode(new Node("Exploration", "There you go! You set foot on a new planet and you are now ready to explore it! Now that you are ready, will you be brave enough to go alone or will you take your team with you?", "", "compass"));
         String s13 = nodeCollection.insertNode(new Node("Hidden pain", "You know you are hurt but you also don't want to miss out on this new big adventure!"));
         String u14 = nodeCollection.insertNode(new Node("Explore the planet", ""));
         String u15 = nodeCollection.insertNode(new Node("Stay near the ship", "", "SHIP"));
@@ -116,7 +116,7 @@ public class MapHelper {
         String s31 = nodeCollection.insertNode(new Node("The toy", "In between procedures, you got some spare time and you pick up the toy when you notice that it has a message in it!"));
         String u32 = nodeCollection.insertNode(new Node("Leave it", ""));
         String u33 = nodeCollection.insertNode(new Node("Read it", ""));
-        String s32 = nodeCollection.insertNode(new Node("Hidden message", "It is a message from your kid! You kid misses you... and a joyful tear travels its way on your cheek. You start wondering if you should stay on the ship instead of going out.. after all, it is the safest option, isn't it"));
+        String s32 = nodeCollection.insertNode(new Node("Hidden message", "It is a message from your kid! You kid misses you... and a joyful tear travels its way on your cheek. You start wondering if you should stay on the ship instead of going out.. after all, it is the safest option, isn't it", "", "magnifing_glass_and_paper"));
         String u34 = nodeCollection.insertNode(new Node("Stay in the ship", ""));
         String u35 = nodeCollection.insertNode(new Node("Get ready to go", ""));
         String c12 = nodeCollection.insertNode(new Node("Call home", "You convince your Earth supervisor to let you call your kid home - Strangely, they let you! But of course, it will take quite some time to connect"));

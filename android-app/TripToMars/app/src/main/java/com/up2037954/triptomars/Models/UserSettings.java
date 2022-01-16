@@ -57,8 +57,10 @@ public class UserSettings implements Serializable {
     public String getLastAnimationId() { return this.lastAnimationId;}
 
     public void setLastAnimationId(String lastAnimationId, Context context) throws IOException {
-        this.lastAnimationId = lastAnimationId;
-        save(context);
+        if (lastAnimationId != null) {
+            this.lastAnimationId = lastAnimationId;
+            save(context);
+        }
     }
 
 

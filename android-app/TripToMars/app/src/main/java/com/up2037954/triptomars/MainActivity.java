@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
             // Add animation
             int animationId = getResources()
                     .getIdentifier("idle_astronaut_0", "raw", getPackageName());
-            if (currentStep.getNode().hasAnimation())
+            if (currentStep.getNode().hasAnimation() && !currentStep.getNode().isBeginning()) // We want the default animation when the game (re)starts
                 animationId = getResources().getIdentifier(currentStep.getNode().getAnimation(), "raw", getPackageName());
 
             animationView.setAnimation(animationId);
