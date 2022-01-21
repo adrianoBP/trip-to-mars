@@ -18,13 +18,16 @@ public class UserSettings implements Serializable {
 
 
     // App related settings
-
     public boolean allowImageAnimations = true;
     public boolean allowTextAnimations = true;
 
     // Game related settings
+    private List<String> exploredNodes = new ArrayList<>();
 
     private List<String> savedItems = new ArrayList<>();
+    private String lastVisitedNode = null;
+    private String lastAnimationId = null;
+
 
     /**
      * Adds an item to the user profile - If it is already exist, it will remove it instead.
@@ -44,15 +47,7 @@ public class UserSettings implements Serializable {
 
     public List<String> getSavedItems() {return savedItems;}
 
-
-    private String lastVisitedNode = null;
-
     public String getLastVisitedNode() { return this.lastVisitedNode; }
-
-    public void setLastVisitedNode(String nodeId) { this.lastVisitedNode = nodeId; }
-
-
-    private String lastAnimationId = null;
 
     public String getLastAnimationId() { return this.lastAnimationId;}
 
@@ -62,9 +57,6 @@ public class UserSettings implements Serializable {
             save(context);
         }
     }
-
-
-    private List<String> exploredNodes = new ArrayList<>();
 
     public void addExploredNode(String nodeId, Context context) throws IOException {
 
@@ -77,7 +69,6 @@ public class UserSettings implements Serializable {
     }
 
     public List<String> getExploredNodes() { return this.exploredNodes; }
-
 
     public UserSettings(Context context) throws IOException {
 
@@ -97,5 +88,12 @@ public class UserSettings implements Serializable {
 
     public void save(Context context) throws IOException {
         FileHelper.save(AppSettings.usersFilePath, new Gson().toJson(this), context);
+    }
+
+    public void clearSettings() {
+        // When restarting the game, some settings should not be carried over to the new game
+        this.savedItems = new ArrayList<>();
+        this.lastVisitedNode = null;
+        this.lastAnimationId = null;
     }
 }

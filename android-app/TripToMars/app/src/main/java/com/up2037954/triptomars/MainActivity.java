@@ -54,10 +54,7 @@ public class MainActivity extends AppCompatActivity {
             AppSettings.init(this);
 
             // Load settings
-            if (userSettings == null)
-                userSettings = new UserSettings(this);
-            else  // When we complete the map and we restart the game, we want to start from the first node
-                userSettings.setLastVisitedNode(null);
+            userSettings = new UserSettings(this);
 
             NodeCollection nodeCollection = MapHelper.buildMap(this);
             mapNavigation = new MapNav(userSettings, nodeCollection);
@@ -154,7 +151,10 @@ public class MainActivity extends AppCompatActivity {
             vibratorService.vibrate(300);
 
             MaterialButton optionButton = AndroidHelper.newButton("Restart", R.color.teal_700, this);
-            optionButton.setOnClickListener(this::playGame);
+            optionButton.setOnClickListener(view -> {
+                userSettings.clearSettings();
+                playGame(view);
+            });
 
             buttonOptions.add(optionButton);
         }
