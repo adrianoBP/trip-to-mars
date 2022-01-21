@@ -97,7 +97,7 @@ public class Node {
     public String toString() {
         return "[" + this.getId() + "]" +
                 (this.isBeginning ? "[✔]" : "[✖]") +
-                "[🔀 " + this.getOptions().size() + "] " +
+                "[Links " + this.getOptions().size() + "] " +
                 this.getTitle() + " - " + this.getDescription();
     }
 }

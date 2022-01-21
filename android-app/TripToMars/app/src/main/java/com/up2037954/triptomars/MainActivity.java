@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
             ((TypeWriter) findViewById(R.id.descriptionText)).setText(currentNode.getDescription());
 
         // Add button options
-        AndroidHelper.createButtons(getOptions(step), findViewById(R.id.mainLayout), this);
+        AndroidHelper.createButtons(getOptionsAsButtons(step), findViewById(R.id.mainLayout), this);
 
         // Update animation
         if (currentNode.hasAnimation()) {
@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private List<MaterialButton> getOptions(Step currentStep) {
+    private List<MaterialButton> getOptionsAsButtons(Step currentStep) {
 
         List<MaterialButton> buttonOptions = new ArrayList<>();
 
@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
         currentStep.getUserOptions().forEach(optionNode -> {
             MaterialButton optionButton = AndroidHelper.newButton(optionNode.getTitle(), this);
 
-            // When this button is clicked, make sure ot run the next action
+            // When this button is clicked, make sure to run the next action
             optionButton.setOnClickListener(view -> {
                 Step nextStep = null;
                 try {
