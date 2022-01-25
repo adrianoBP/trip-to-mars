@@ -19,8 +19,8 @@ public class UserSettings {
     public List<String> getSavedItems() {return savedItems;}
 
     /**
-    * Adds an item to the user profile - If it is already exist, it will remove it instead.
-    */
+     * Adds an item to the user profile - If it is already exist, it will remove it instead.
+     */
     public void tryAddItem(String item) {
 
         if (StringUtils.isEmpty(item))
@@ -30,12 +30,9 @@ public class UserSettings {
             this.savedItems.remove(item);
         else
             this.savedItems.add(item);
-
-        // TODO: Save to file
     }
 
 
     public UserSettings() {
-        // TODO: Get saved settings from filesystem
     }
 }

@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 
 public class NodeCollection {
 
-    // TODO: Justify (optimised searching)
     private final Map<String, Node> nodeIdToNode;
 
     public Node getNodeById(String nodeId) {
@@ -45,7 +44,6 @@ public class NodeCollection {
 
     public NodeCollection() throws Exception {
 
-        // TODO: Justify usage: testing
         String nodesFileContent = AppSettings.isLive ? "[]" : FileHelper.getOrCreate(AppSettings.nodesFilePath, "[]");
 
         // We need to define the type first due to Gson not recognising List<>, and we are storing a list of objects

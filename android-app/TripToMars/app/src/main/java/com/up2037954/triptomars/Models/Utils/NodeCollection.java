@@ -20,7 +20,7 @@ public class NodeCollection {
 
     private final Context context;
 
-    // TODO: Justify (optimised searching)
+    // Maps are used to optimise the search of nodes by id (key of the map)
     private final Map<String, Node> nodeIdToNode;
 
 

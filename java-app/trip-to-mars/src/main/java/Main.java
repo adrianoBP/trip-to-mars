@@ -20,9 +20,6 @@ public class Main {
 
         newGame(userSettings);
 
-        // TODO: Testing - First part of map contains all cases
-        // TODO(Investigation): do we need to save to file?
-
         printLine("-- GAME END --");
     }
 
