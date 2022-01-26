@@ -50,7 +50,7 @@ public class Main {
                 userInput = getStringFromConsole();
                 if (userInput.equalsIgnoreCase("e")) {break;}
 
-                selectedOption = currentStep.getUserOptions().get(Integer.parseInt(userInput));
+                selectedOption = currentStep.getUserOptions().get(Integer.parseInt(userInput) - 1);
             }
 
             currentStep = mapNavigation.selectNextStep(selectedOption, currentStep.isUserChoice());

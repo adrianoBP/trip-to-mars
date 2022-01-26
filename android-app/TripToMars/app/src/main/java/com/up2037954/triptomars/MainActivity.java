@@ -132,9 +132,8 @@ public class MainActivity extends AppCompatActivity {
 
             // When this button is clicked, make sure to run the next action
             optionButton.setOnClickListener(view -> {
-                Step nextStep = null;
                 try {
-                    nextStep = mapNavigation.selectNextStep(optionNode, currentStep.isUserChoice(), this);
+                    Step nextStep = mapNavigation.selectNextStep(optionNode, currentStep.isUserChoice(), this);
                     drawStep(nextStep);
                 } catch (Exception e) {
                     e.printStackTrace();
