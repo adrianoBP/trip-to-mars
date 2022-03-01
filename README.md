@@ -2,6 +2,8 @@
 
 Programming Applications and Languages (PAPL) Coursework
 
+[Video Demo](https://youtu.be/uoAXjEQZUHQ)
+
 ## Config settings
 
 Path (Java): `src/main/resources/app.config`
