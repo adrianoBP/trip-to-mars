@@ -1,6 +1,6 @@
 # trip-to-mars
 
-Programming Applications and Languages (PAPL) Coursework
+Programming Applications and Languages (PAPL) Coursework for M30235-2021 module @ Univeristy of Portsmouth
 
 [Video Demo](https://youtu.be/uoAXjEQZUHQ)
 
